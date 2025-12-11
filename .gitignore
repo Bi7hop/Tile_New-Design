@@ -1,0 +1,31 @@
+# Sicherheitsdateien - NIEMALS committen!
+admin/.env
+admin/secrets.php
+*.env
+.env
+
+# Log-Dateien
+*.log
+data/*.log
+admin/data/*.log
+
+# Temporäre Dateien
+*.tmp
+*.temp
+
+# Upload-Verzeichnisse (optional)
+uploads/
+assets/img/tile-of-month/
+
+# System-Dateien
+.DS_Store
+Thumbs.db
+
+# IDE-Dateien
+.vscode/
+.idea/
+
+admin/credentials.php
+admin/.env
+*.env
+*.log

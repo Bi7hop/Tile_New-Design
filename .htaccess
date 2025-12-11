@@ -1,0 +1,89 @@
+# ===========================================
+# MINIMALE .HTACCESS - SCHRITTWEISE TESTEN
+# ===========================================
+
+# SCHRITT 1: NUR DAS NÖTIGSTE (ZUERST TESTEN)
+DirectoryIndex index.php index.html
+
+# SCHRITT 2: SICHERHEIT BASIS (NACH SCHRITT 1)
+Options -Indexes
+
+<Files ".htaccess">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "*.log">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# SCHRITT 3: HTTPS WEITERLEITUNG (NACH SCHRITT 2)
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# SCHRITT 4: ADMIN UND DATA SCHUTZ (NACH SCHRITT 3)
+# ===========================================
+# SCHRITT 1-3 (FUNKTIONIERT BEREITS)
+# ===========================================
+DirectoryIndex index.php index.html
+Options -Indexes
+
+<Files ".htaccess">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "*.log">
+    Order allow,deny
+    Deny from all
+</Files>
+
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ===========================================
+# SCHRITT 4 - OHNE DIRECTORY (FUNKTIONIERT ÜBERALL)
+# ===========================================
+
+# JSON-Dateien schützen
+<Files "*.json">
+    Order deny,allow
+    Deny from all
+</Files>
+
+# Backup-Dateien blockieren
+<FilesMatch "\.(bak|backup|old|tmp|temp)$">
+    Order deny,allow
+    Deny from all
+</FilesMatch>
+
+# Admin PHP-Dateien nur von localhost (optional)
+<FilesMatch "^(config|functions|credentials)\.php$">
+    Order deny,allow
+    Deny from all
+    Allow from 127.0.0.1
+</FilesMatch>
+
+# Weitere sensible Dateien
+<Files "composer.json">
+    Order deny,allow
+    Deny from all
+</Files>
+
+<Files "composer.lock">
+    Order deny,allow
+    Deny from all
+</Files>
+
+<Files "package.json">
+    Order deny,allow
+    Deny from all
+</Files>
+
+# <Directory "data/">
+#     Order allow,deny
+#     Deny from all
+# </Directory>

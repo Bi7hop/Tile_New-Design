@@ -1,0 +1,184 @@
+.tile-detail-section {
+    padding: 3rem 0;
+}
+
+.tile-detail-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+
+.tile-month-badge {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: var(--white);
+    padding: 0.4rem 1.5rem;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tile-detail-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+}
+
+@media (min-width: 992px) {
+    .tile-detail-content {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.tile-detail-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.tile-main-image {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+}
+
+.tile-main-image img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.4s ease;
+}
+
+.tile-main-image:hover img {
+    transform: scale(1.03);
+}
+
+.tile-thumbnails {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.tile-thumbnails img {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--box-shadow);
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.tile-thumbnails img:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.tile-detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.tile-price-box {
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: var(--box-shadow);
+}
+
+.price-comparison {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 1.2rem;
+}
+
+.new-price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.price-save {
+    display: inline-block;
+    background-color: rgba(46, 204, 113, 0.1);
+    color: #2ecc71;
+    padding: 0.3rem 1rem;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.tile-specs h3, .tile-description h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.tile-specs h3::after, .tile-description h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--accent-color);
+}
+
+.specs-list {
+    list-style: none;
+    padding: 0;
+}
+
+.specs-list li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--light-gray);
+    display: flex;
+    justify-content: space-between;
+}
+
+.specs-list li:last-child {
+    border-bottom: none;
+}
+
+.tile-description p {
+    margin-bottom: 1rem;
+}
+
+.tile-cta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--accent-color);
+    color: var(--white);
+}

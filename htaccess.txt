@@ -1,0 +1,36 @@
+# MINIMALE .HTACCESS - NUR DAS NÖTIGSTE
+# Falls Probleme auftreten, diese Zeilen schrittweise hinzufügen
+
+# PHP ALS INDEX-DATEI DEFINIEREN
+DirectoryIndex index.php index.html
+
+# HTTPS ERZWINGEN (nur wenn SSL-Zertifikat vorhanden)
+# WICHTIG: Nur einkommentieren wenn SSL installiert ist!
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# DIRECTORY BROWSING DEAKTIVIEREN
+Options -Indexes
+
+# SENSIBLE DATEIEN SCHÜTZEN
+<Files ".htaccess">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "*.log">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# ADMIN-VERZEICHNIS SCHÜTZEN
+<Directory "admin/">
+    Options -Indexes
+</Directory>
+
+# DATA-VERZEICHNIS SCHÜTZEN
+<Directory "data/">
+    Order allow,deny
+    Deny from all
+</Directory>

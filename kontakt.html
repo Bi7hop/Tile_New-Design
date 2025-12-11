@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt - Fliesen Runnebaum | Kostenlose Beratung Steinfeld</title>
+    <meta name="description" content="Kontaktieren Sie uns für eine kostenlose Beratung. Telefon: 0176 / 10432567, E-Mail: info@fliesen-runnebaum.net. Steinfeld und Umgebung.">
+    <link rel="icon" href="assets/img/fliesenrunnebaum_favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.php" class="logo">Fliesen Runnebaum</a>
+                <button class="menu-toggle" aria-label="Menü öffnen">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="index.php" class="nav-link">Start</a></li>
+                    <li class="nav-item"><a href="leistungen.html" class="nav-link">Leistungen</a></li>
+                    <li class="nav-item"><a href="galerie.html" class="nav-link">Galerie</a></li>
+                    <li class="nav-item"><a href="kontakt.html" class="nav-link cta active">Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <div class="section-label">Kontakt</div>
+                <h1 class="page-title">Lassen Sie uns über Ihr Projekt sprechen</h1>
+                <p class="page-description">
+                    Kontaktieren Sie uns für eine kostenlose Beratung. Wir freuen uns auf Ihr Projekt!
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section section-spacing">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-form-wrapper">
+                    <h2>Schreiben Sie uns</h2>
+                    <form class="contact-form" id="contactForm" method="POST" action="send_email.php">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Name *</label>
+                            <input type="text" id="name" name="name" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">E-Mail *</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone" class="form-label">Telefon</label>
+                            <input type="tel" id="phone" name="phone" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject" class="form-label">Betreff *</label>
+                            <select id="subject" name="subject" class="form-control" required>
+                                <option value="">Bitte wählen</option>
+                                <option value="badezimmer">Badezimmer-Sanierung</option>
+                                <option value="kueche">Küche</option>
+                                <option value="wohnbereich">Wohnbereich</option>
+                                <option value="terrasse">Terrasse/Balkon</option>
+                                <option value="fussbodenheizung">Fußbodenheizung</option>
+                                <option value="sonstiges">Sonstiges</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" class="form-label">Ihre Nachricht *</label>
+                            <textarea id="message" name="message" class="form-control" rows="6" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="privacy" required>
+                                <span>Ich habe die <a href="datenschutz.html" target="_blank">Datenschutzerklärung</a> zur Kenntnis genommen.</span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn-primary btn-block">
+                            Nachricht senden
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="contact-info-wrapper">
+                    <div class="contact-info-card">
+                        <div class="contact-info-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                            </svg>
+                        </div>
+                        <h3>Telefon</h3>
+                        <p><a href="tel:+4917610432567">0176 / 10432567</a></p>
+                        <span class="info-subtext">Mo-Fr: 8:00-17:00 Uhr</span>
+                    </div>
+
+                    <div class="contact-info-card">
+                        <div class="contact-info-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <h3>E-Mail</h3>
+                        <p><a href="mailto:info@fliesen-runnebaum.net">info@fliesen-runnebaum.net</a></p>
+                        <span class="info-subtext">Antwort innerhalb 24h</span>
+                    </div>
+
+                    <div class="contact-info-card">
+                        <div class="contact-info-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        <h3>Adresse</h3>
+                        <p>
+                            Rouen Kamp 1<br>
+                            49439 Steinfeld
+                        </p>
+                        <span class="info-subtext">Oldenburg & Umgebung</span>
+                    </div>
+
+                    <div class="contact-info-card">
+                        <div class="contact-info-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6v6l4 2"/>
+                            </svg>
+                        </div>
+                        <h3>Öffnungszeiten</h3>
+                        <p>
+                            Mo-Fr: 8:00-17:00 Uhr<br>
+                            Sa: Nach Vereinbarung
+                        </p>
+                        <span class="info-subtext">Notdienst verfügbar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.php" class="logo">Fliesen Runnebaum</a>
+                    <p>
+                        Ihr zuverlässiger Fliesenleger in Steinfeld und Umgebung. 
+                        Qualität und Präzision seit über 20 Jahren.
+                    </p>
+                </div>
+                <div class="footer-nav">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="index.php">Start</a></li>
+                        <li><a href="leistungen.html">Leistungen</a></li>
+                        <li><a href="galerie.html">Galerie</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-info">
+                    <h4>Kontakt</h4>
+                    <ul>
+                        <li><a href="tel:+4917610432567">0176 / 10432567</a></li>
+                        <li><a href="mailto:info@fliesen-runnebaum.net">info@fliesen-runnebaum.net</a></li>
+                    </ul>
+                </div>
+                <div class="footer-hours">
+                    <h4>Adresse</h4>
+                    <ul>
+                        <li>Rouen Kamp 1</li>
+                        <li>49439 Steinfeld</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Fliesen Runnebaum. Alle Rechte vorbehalten.</p>
+                <div>
+                    <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
