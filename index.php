@@ -1,3 +1,27 @@
+<?php
+// Fliese des Monats laden
+$tile_data_file = __DIR__ . '/data/tile-of-month.json';
+$tile = null;
+
+if (file_exists($tile_data_file)) {
+    $json = file_get_contents($tile_data_file);
+    $tile = json_decode($json, true);
+}
+
+// Fallback auf Standard-Daten
+if (!$tile) {
+    $tile = [
+        'month' => 'Dezember 2025',
+        'title' => 'XXL-Betonoptik Fliesen',
+        'description' => 'Moderne Großformatfliesen in zeitloser Betonoptik. Ideal für Wohnräume und Badezimmer. Minimale Fugen für ein großzügiges Raumgefühl.',
+        'main_image' => 'default-tile.jpg',
+        'features' => ['120×60cm', 'Frostsicher', 'Fußbodenheizung'],
+        'old_price' => '59,95',
+        'new_price' => '49,95',
+        'saving' => '10,00'
+    ];
+}
+?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -53,14 +77,6 @@
                     </svg>
                 </a>
             </div>
-            
-            <div class="hero-badge">
-                <div class="badge-icon">⭐</div>
-                <div class="badge-text">
-                    20+ Jahre
-                    <span>Erfahrung & Qualität</span>
-                </div>
-            </div>
         </div>
         
         <div class="hero-image">
@@ -75,26 +91,27 @@
             <div class="spotlight-card" id="tileOfMonthCard">
                 <div class="spotlight-image">
                     <div class="spotlight-tag">Fliese des Monats</div>
-                    <img src="https://images.unsplash.com/photo-1615971677499-5467cbab01c0?w=800&q=80" alt="XXL Betonoptik Fliesen">
+                    <img src="assets/img/tile-of-month/<?php echo htmlspecialchars($tile['main_image']); ?>" 
+                         alt="<?php echo htmlspecialchars($tile['title']); ?>"
+                         onerror="this.src='https://images.unsplash.com/photo-1615971677499-5467cbab01c0?w=800&q=80'">
                 </div>
                 <div class="spotlight-content">
-                    <div class="spotlight-month">Dezember 2025</div>
-                    <h2 class="spotlight-title">XXL-Betonoptik Fliesen</h2>
+                    <div class="spotlight-month"><?php echo htmlspecialchars($tile['month']); ?></div>
+                    <h2 class="spotlight-title"><?php echo htmlspecialchars($tile['title']); ?></h2>
                     <p class="spotlight-description">
-                        Moderne Großformatfliesen in zeitloser Betonoptik. Ideal für Wohnräume und 
-                        Badezimmer. Minimale Fugen für ein großzügiges Raumgefühl.
+                        <?php echo htmlspecialchars($tile['description']); ?>
                     </p>
                     <div class="spotlight-features">
-                        <span class="feature-tag">120×60cm</span>
-                        <span class="feature-tag">Frostsicher</span>
-                        <span class="feature-tag">Fußbodenheizung</span>
+                        <?php foreach ($tile['features'] as $feature): ?>
+                            <span class="feature-tag"><?php echo htmlspecialchars($feature); ?></span>
+                        <?php endforeach; ?>
                     </div>
                     <div class="spotlight-price">
-                        <span class="price-old">59,95 €</span>
-                        <span class="price-new">49,95 <span class="price-unit">€/m²</span></span>
-                        <span class="price-save">-10 € sparen</span>
+                        <span class="price-old"><?php echo htmlspecialchars($tile['old_price']); ?> €</span>
+                        <span class="price-new"><?php echo htmlspecialchars($tile['new_price']); ?> <span class="price-unit">€/m²</span></span>
+                        <span class="price-save">-<?php echo htmlspecialchars($tile['saving']); ?> € sparen</span>
                     </div>
-                    <a href="kontakt.html" class="btn-primary">Mehr erfahren</a>
+                    <a href="fliese-des-monats.php" class="btn-primary">Mehr erfahren</a>
                 </div>
             </div>
         </div>
@@ -284,5 +301,6 @@
     </footer>
 
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/header-scroll.js"></script>
 </body>
 </html>
