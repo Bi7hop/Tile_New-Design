@@ -1,113 +1,120 @@
 <?php
-// Funktion, um die aktuelle Fliese des Monats zu laden
+/**
+ * Admin-Funktionen für Fliesen des Monats
+ */
+
+/**
+ * Aktuelle Fliese des Monats laden
+ */
 function get_current_tile() {
-    if (file_exists(TILE_DATA_FILE)) {
-        $data = file_get_contents(TILE_DATA_FILE);
-        return json_decode($data, true);
+    if (!file_exists(TILE_DATA_FILE)) {
+        return get_default_tile_data();
     }
     
-    // Standard-Werte, falls keine Datei existiert
+    $json = file_get_contents(TILE_DATA_FILE);
+    $data = json_decode($json, true);
+    
+    if (!$data) {
+        return get_default_tile_data();
+    }
+    
+    return $data;
+}
+
+/**
+ * Fliese des Monats speichern
+ */
+function save_tile_data($data) {
+    $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    
+    if ($json === false) {
+        return false;
+    }
+    
+    return file_put_contents(TILE_DATA_FILE, $json, LOCK_EX) !== false;
+}
+
+/**
+ * Standard-Daten für Fliese des Monats
+ */
+function get_default_tile_data() {
     return [
-        'month' => date('F Y'),
+        'month' => 'Dezember 2025',
         'title' => 'XXL-Betonoptik Fliesen',
-        'description' => 'Moderne Großformatfliesen in zeitloser Betonoptik.',
-        'format' => '120×60cm',
+        'description' => 'Moderne Großformatfliesen in zeitloser Betonoptik. Ideal für Wohnräume und Badezimmer. Minimale Fugen für ein großzügiges Raumgefühl.',
+        'main_image' => 'default-tile.jpg',
+        'detail_images' => [],
+        'features' => ['120×60cm', 'Frostsicher', 'Fußbodenheizung'],
+        'old_price' => '59,95',
+        'new_price' => '49,95',
+        'saving' => '10,00',
+        'format' => '120×60 cm',
         'material' => 'Feinsteinzeug',
-        'look' => 'Betonoptik, matt',
-        'surface' => 'Leicht strukturiert',
-        'properties' => 'Frostsicher, abriebfest, rutschhemmend R9',
-        'usage' => 'Wohnräume, Badezimmer, Küche',
+        'look' => 'Betonoptik',
+        'surface' => 'Matt',
+        'properties' => 'Rutschfest, Frostsicher',
+        'usage' => 'Innen und Außen',
         'floor_heating' => 'Geeignet',
-        'availability' => 'Sofort lieferbar',
-        'features' => ['120×60cm', 'Frostsicher', 'Für Fußbodenheizung'],
-        'old_price' => '59.95',
-        'new_price' => '49.95',
-        'saving' => '10.00',
-        'main_image' => 'fliesedesmonats.png',
-        'detail_images' => ['Detail.png', 'Detail.png', 'Detail.png'],
+        'availability' => 'Sofort verfügbar',
         'detailed_description' => [
-            'Die XXL-Betonoptik Fliesen vereinen modernen Industriestil mit praktischer Funktionalität. Das großzügige Format von 120×60 cm sorgt für ein offenes Raumgefühl mit minimalen Fugen und lässt selbst kleinere Räume größer wirken.',
-            'Die matte, leicht strukturierte Oberfläche imitiert Beton perfekt, bietet jedoch deutlich mehr Vorteile: Die Fliesen sind pflegeleichter, widerstandsfähiger und langlebiger als echter Beton, dabei aber genauso ausdrucksstark.',
-            'Dank der Frostsicherheit eignen sich die Fliesen auch für den Übergang zu überdachten Außenbereichen, was ein durchgängiges Designkonzept ermöglicht. Die rutschhemmende Eigenschaft R9 sorgt für die nötige Sicherheit in Wohnräumen.'
+            'Diese moderne Großformatfliese in Betonoptik verleiht jedem Raum einen zeitgemäßen, urbanen Charakter.',
+            'Die matte Oberfläche und die minimalen Fugen sorgen für ein großzügiges Raumgefühl.'
         ]
     ];
 }
 
-// Funktion, um die Fliese des Monats zu speichern
-function save_tile_data($data) {
-    if (!is_dir(DATA_PATH)) {
-        mkdir(DATA_PATH, 0755, true);
-    }
-    
-    $json = json_encode($data, JSON_PRETTY_PRINT);
-    return file_put_contents(TILE_DATA_FILE, $json) !== false;
-}
-
-// Funktion zum sicheren Hochladen von Bildern
+/**
+ * Bild hochladen
+ */
 function upload_image($file, $target_dir) {
-    // Erstelle Upload-Verzeichnis, falls es nicht existiert
-    if (!is_dir($target_dir)) {
-        mkdir($target_dir, 0755, true);
+    $allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+    $max_size = 5 * 1024 * 1024;
+    
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        return ['success' => false, 'message' => 'Upload-Fehler: ' . $file['error']];
     }
     
-    // Überprüfen, ob es ein Bild ist
-    $check = getimagesize($file["tmp_name"]);
-    if ($check === false) {
-        return ['success' => false, 'message' => 'Die Datei ist kein Bild.'];
+    if ($file['size'] > $max_size) {
+        return ['success' => false, 'message' => 'Datei ist zu groß (max. 5 MB)'];
     }
     
-    // Nur bestimmte Bildformate zulassen
-    $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
-    if (!in_array($file['type'], $allowed_types)) {
-        return ['success' => false, 'message' => 'Nur JPG, PNG und GIF-Dateien sind erlaubt.'];
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mime_type = finfo_file($finfo, $file['tmp_name']);
+    finfo_close($finfo);
+    
+    if (!in_array($mime_type, $allowed_types)) {
+        return ['success' => false, 'message' => 'Ungültiger Dateityp. Nur JPG, PNG und GIF erlaubt.'];
     }
     
-    // Dateiname generieren
-    $file_extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-    $unique_filename = uniqid() . '.' . $file_extension;
-    $target_file = $target_dir . '/' . $unique_filename;
+    $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $filename = uniqid('tile_') . '.' . $extension;
+    $target_file = $target_dir . '/' . $filename;
     
-    // Datei hochladen
-    if (move_uploaded_file($file["tmp_name"], $target_file)) {
-        return [
-            'success' => true, 
-            'filename' => $unique_filename,
-            'path' => $target_file
-        ];
-    } else {
-        return ['success' => false, 'message' => 'Fehler beim Hochladen der Datei.'];
+    if (!move_uploaded_file($file['tmp_name'], $target_file)) {
+        return ['success' => false, 'message' => 'Fehler beim Speichern der Datei'];
     }
+    
+    return ['success' => true, 'filename' => $filename];
 }
 
-// Funktion zum Erstellen des Monatsnamens (z.B. "Mai 2025")
+/**
+ * Monatsliste generieren
+ */
 function get_month_options() {
-    $months = [
-        '01' => 'Januar',
-        '02' => 'Februar',
-        '03' => 'März',
-        '04' => 'April',
-        '05' => 'Mai',
-        '06' => 'Juni',
-        '07' => 'Juli',
-        '08' => 'August',
-        '09' => 'September',
-        '10' => 'Oktober',
-        '11' => 'November',
-        '12' => 'Dezember'
+    $months = [];
+    $current_year = date('Y');
+    $next_year = $current_year + 1;
+    
+    $month_names = [
+        'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+        'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
     ];
     
-    $current_year = date('Y');
-    $years = [$current_year, $current_year + 1];
-    
-    $options = [];
-    
-    foreach ($years as $year) {
-        foreach ($months as $month_num => $month_name) {
-            $value = $month_name . ' ' . $year;
-            $options[$value] = $value;
-        }
+    foreach ($month_names as $month) {
+        $months["$month $current_year"] = "$month $current_year";
+        $months["$month $next_year"] = "$month $next_year";
     }
     
-    return $options;
+    return $months;
 }
 ?>
