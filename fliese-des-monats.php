@@ -183,5 +183,8 @@ if (empty($tile_data)) {
         </div>
     </footer>
     <a href="#" class="back-to-top" aria-label="Nach oben scrollen">&#8679;</a>
+
+   <script src="assets/js/header-scroll.js"></script>
+
 </body>
 </html>
