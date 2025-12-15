@@ -1,5 +1,4 @@
 <?php
-// Fliese des Monats laden
 $tile_data_file = __DIR__ . '/data/tile-of-month.json';
 $tile = null;
 
@@ -8,7 +7,6 @@ if (file_exists($tile_data_file)) {
     $tile = json_decode($json, true);
 }
 
-// Fallback auf Standard-Daten
 if (!$tile) {
     $tile = [
         'month' => 'Dezember 2025',
@@ -31,6 +29,7 @@ if (!$tile) {
     <meta name="description" content="Professionelle Fliesenarbeiten in Steinfeld und Umgebung. Über 20 Jahre Erfahrung in Badezimmer, Küche, Wohnräume und Außenbereiche.">
     <link rel="icon" href="assets/img/fliesenrunnebaum_favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/cookie.css">
 </head>
 <body>
     <header class="header" id="header">
@@ -300,7 +299,53 @@ if (!$tile) {
         </div>
     </footer>
 
+    <div class="modal-overlay" id="cookie-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Cookie-Einstellungen</h2>
+                <button class="modal-close" id="cookie-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Wir verwenden Cookies, um Ihnen die bestmögliche Erfahrung auf unserer Website zu bieten. Sie können selbst entscheiden, welche Cookies Sie zulassen möchten.</p>
+                
+                <div class="cookie-options">
+                    <div class="cookie-option">
+                        <input type="checkbox" id="essential-cookies" checked disabled>
+                        <label for="essential-cookies">
+                            <strong>Notwendige Cookies</strong>
+                            <p>Diese Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden.</p>
+                        </label>
+                    </div>
+                    
+                    <div class="cookie-option">
+                        <input type="checkbox" id="analytics-cookies">
+                        <label for="analytics-cookies">
+                            <strong>Analyse-Cookies</strong>
+                            <p>Helfen uns zu verstehen, wie Besucher mit unserer Website interagieren.</p>
+                        </label>
+                    </div>
+                    
+                    <div class="cookie-option">
+                        <input type="checkbox" id="marketing-cookies">
+                        <label for="marketing-cookies">
+                            <strong>Marketing-Cookies</strong>
+                            <p>Werden verwendet, um Besuchern relevante Werbung anzuzeigen.</p>
+                        </label>
+                    </div>
+                </div>
+                
+                <p class="cookie-info-text">Weitere Informationen finden Sie in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="cookie-reject-all" class="btn-outline">Alle ablehnen</button>
+                <button id="cookie-save" class="btn-secondary">Auswahl speichern</button>
+                <button id="cookie-accept-all" class="btn-primary">Alle akzeptieren</button>
+            </div>
+        </div>
+    </div>
+
     <script src="assets/js/main.js"></script>
     <script src="assets/js/header-scroll.js"></script>
+    <script src="assets/js/cookie.js"></script>
 </body>
 </html>
