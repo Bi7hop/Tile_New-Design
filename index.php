@@ -122,7 +122,7 @@ if (!$tile) {
             <div class="about-inner">
                 <div class="about-image-container">
                     <div class="about-image">
-                        <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600&q=80" alt="Oliver Runnebaum">
+                        <img src="assets/img/olli.png" alt="Oliver Runnebaum bei der Arbeit">
                     </div>
                     <div class="about-decor"></div>
                 </div>
