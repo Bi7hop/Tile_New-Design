@@ -7,6 +7,7 @@
     <meta name="description" content="Kontaktieren Sie uns für eine kostenlose Beratung. Telefon: 0176 / 10432567, E-Mail: info@fliesen-runnebaum.net. Steinfeld und Umgebung.">
     <link rel="icon" href="assets/img/fliesenrunnebaum_favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/cookie.css">
 </head>
 <body>
     <header class="header" id="header">
@@ -45,7 +46,7 @@
             <div class="contact-grid">
                 <div class="contact-form-wrapper">
                     <h2>Schreiben Sie uns</h2>
-                    <form class="contact-form" id="contactForm" method="POST" action="send_email.php">
+                    <form class="contact-form" id="contact-form" method="POST" action="contact-handler.php">
                         <div class="form-group">
                             <label for="name" class="form-label">Name *</label>
                             <input type="text" id="name" name="name" class="form-control" required>
@@ -81,12 +82,14 @@
 
                         <div class="form-group">
                             <label class="checkbox-label">
-                                <input type="checkbox" name="privacy" required>
+                                <input type="checkbox" name="privacy" id="privacy" required>
                                 <span>Ich habe die <a href="datenschutz.html" target="_blank">Datenschutzerklärung</a> zur Kenntnis genommen.</span>
                             </label>
                         </div>
 
-                        <button type="submit" class="btn-primary btn-block">
+                        <div id="form-message" class="form-message"></div>
+
+                        <button type="submit" id="submit-btn" class="btn-primary btn-block">
                             Nachricht senden
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -195,7 +198,54 @@
         </div>
     </footer>
 
+    <div class="modal-overlay" id="cookie-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Cookie-Einstellungen</h2>
+                <button class="modal-close" id="cookie-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Wir verwenden Cookies, um Ihnen die bestmögliche Erfahrung auf unserer Website zu bieten. Sie können selbst entscheiden, welche Cookies Sie zulassen möchten.</p>
+                
+                <div class="cookie-options">
+                    <div class="cookie-option">
+                        <input type="checkbox" id="essential-cookies" checked disabled>
+                        <label for="essential-cookies">
+                            <strong>Notwendige Cookies</strong>
+                            <p>Diese Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden.</p>
+                        </label>
+                    </div>
+                    
+                    <div class="cookie-option">
+                        <input type="checkbox" id="analytics-cookies">
+                        <label for="analytics-cookies">
+                            <strong>Analyse-Cookies</strong>
+                            <p>Helfen uns zu verstehen, wie Besucher mit unserer Website interagieren.</p>
+                        </label>
+                    </div>
+                    
+                    <div class="cookie-option">
+                        <input type="checkbox" id="marketing-cookies">
+                        <label for="marketing-cookies">
+                            <strong>Marketing-Cookies</strong>
+                            <p>Werden verwendet, um Besuchern relevante Werbung anzuzeigen.</p>
+                        </label>
+                    </div>
+                </div>
+                
+                <p class="cookie-info-text">Weitere Informationen finden Sie in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="cookie-reject-all" class="btn-outline">Alle ablehnen</button>
+                <button id="cookie-save" class="btn-secondary">Auswahl speichern</button>
+                <button id="cookie-accept-all" class="btn-primary">Alle akzeptieren</button>
+            </div>
+        </div>
+    </div>
+
     <script src="assets/js/main.js"></script>
     <script src="assets/js/header-scroll.js"></script>
+    <script src="assets/js/contact-form.js"></script>
+    <script src="assets/js/cookie.js"></script>
 </body>
 </html>
