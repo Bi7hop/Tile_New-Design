@@ -1,37 +1,22 @@
 <?php
-// Datei mit den Fliesen-des-Monats-Daten laden
 $tile_data_file = __DIR__ . '/data/tile-of-month.json';
-$tile_data = [];
+$tile = null;
 
 if (file_exists($tile_data_file)) {
-    $tile_data = json_decode(file_get_contents($tile_data_file), true);
+    $json = file_get_contents($tile_data_file);
+    $tile = json_decode($json, true);
 }
 
-// Standardwerte für den Fall, dass keine Datei existiert
-if (empty($tile_data)) {
-    $tile_data = [
-        'month' => date('F Y'),
+if (!$tile) {
+    $tile = [
+        'month' => 'Dezember 2025',
         'title' => 'XXL-Betonoptik Fliesen',
-        'description' => 'Moderne Großformatfliesen in zeitloser Betonoptik.',
-        'format' => '120×60 cm',
-        'material' => 'Feinsteinzeug',
-        'look' => 'Betonoptik, matt',
-        'surface' => 'Leicht strukturiert',
-        'properties' => 'Frostsicher, abriebfest, rutschhemmend R9',
-        'usage' => 'Wohnräume, Badezimmer, Küche',
-        'floor_heating' => 'Geeignet',
-        'availability' => 'Sofort lieferbar',
-        'features' => ['120×60cm', 'Frostsicher', 'Für Fußbodenheizung'],
-        'old_price' => '59.95',
-        'new_price' => '49.95',
-        'saving' => '10.00',
-        'main_image' => 'fliesedesmonats.png',
-        'detail_images' => ['Detail.png', 'Detail.png', 'Detail.png'],
-        'detailed_description' => [
-            'Die XXL-Betonoptik Fliesen vereinen modernen Industriestil mit praktischer Funktionalität. Das großzügige Format von 120×60 cm sorgt für ein offenes Raumgefühl mit minimalen Fugen und lässt selbst kleinere Räume größer wirken.',
-            'Die matte, leicht strukturierte Oberfläche imitiert Beton perfekt, bietet jedoch deutlich mehr Vorteile: Die Fliesen sind pflegeleichter, widerstandsfähiger und langlebiger als echter Beton, dabei aber genauso ausdrucksstark.',
-            'Dank der Frostsicherheit eignen sich die Fliesen auch für den Übergang zu überdachten Außenbereichen, was ein durchgängiges Designkonzept ermöglicht. Die rutschhemmende Eigenschaft R9 sorgt für die nötige Sicherheit in Wohnräumen.'
-        ]
+        'description' => 'Moderne Großformatfliesen in zeitloser Betonoptik. Ideal für Wohnräume und Badezimmer. Minimale Fugen für ein großzügiges Raumgefühl.',
+        'main_image' => 'default-tile.jpg',
+        'features' => ['120×60cm', 'Frostsicher', 'Fußbodenheizung'],
+        'old_price' => '59,95',
+        'new_price' => '49,95',
+        'saving' => '10,00'
     ];
 }
 ?>
@@ -40,22 +25,15 @@ if (empty($tile_data)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fliese des Monats - <?php echo htmlspecialchars($tile_data['title']); ?> | Fliesen Runnebaum</title>
-    <meta name="description" content="<?php echo htmlspecialchars($tile_data['description']); ?> Zum Sonderpreis von <?php echo htmlspecialchars($tile_data['new_price']); ?> €/m².">
-    
+    <title>Fliese des Monats - <?php echo htmlspecialchars($tile['title']); ?> | Fliesen Runnebaum</title>
+    <meta name="description" content="<?php echo htmlspecialchars($tile['title']); ?> - Unser Angebot des Monats. <?php echo htmlspecialchars($tile['description']); ?>">
     <link rel="icon" href="assets/img/fliesenrunnebaum_favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="assets/css/fonts.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/animations.css">
     <link rel="stylesheet" href="assets/css/fliese-des-monats.css">
-    <link rel="stylesheet" href="assets/css/common.css">
-    
-    <script src="assets/js/animations.js" defer></script>
-    <script src="assets/js/main.js" defer></script>
-    <script src="assets/js/preloader.js" defer></script>
+    <link rel="stylesheet" href="assets/css/cookie.css">
 </head>
 <body>
-    <header class="header">
+    <header class="header" id="header">
         <div class="container">
             <nav class="navbar">
                 <a href="index.php" class="logo">Fliesen Runnebaum</a>
@@ -68,102 +46,205 @@ if (empty($tile_data)) {
                     <li class="nav-item"><a href="index.php" class="nav-link">Start</a></li>
                     <li class="nav-item"><a href="leistungen.html" class="nav-link">Leistungen</a></li>
                     <li class="nav-item"><a href="galerie.html" class="nav-link">Galerie</a></li>
-                    <li class="nav-item"><a href="kontakt.html" class="nav-link">Kontakt</a></li>
+                    <li class="nav-item"><a href="kontakt.html" class="nav-link cta">Kontakt</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <section class="page-header">
+    <section class="page-header tile-header">
         <div class="container">
-            <h1>Fliese des Monats</h1>
-            <p>Entdecken Sie unsere monatlich wechselnden Fliesenhighlights zu Sonderpreisen</p>
+            <div class="page-header-content">
+                <div class="section-label">Angebot des Monats</div>
+                <h1 class="page-title"><?php echo htmlspecialchars($tile['title']); ?></h1>
+                <p class="page-description"><?php echo htmlspecialchars($tile['month']); ?></p>
+            </div>
         </div>
     </section>
 
-    <main>
-        <section class="tile-detail-section">
-            <div class="container">
-                <div class="tile-detail-header">
-                    <div class="tile-month-badge"><?php echo htmlspecialchars($tile_data['month']); ?></div>
-                    <h2><?php echo htmlspecialchars($tile_data['title']); ?></h2>
+    <section class="tile-detail section-spacing">
+        <div class="container">
+            <div class="tile-detail-grid">
+                <div class="tile-gallery">
+                    <div class="main-image">
+                        <img src="assets/img/tile-of-month/<?php echo htmlspecialchars($tile['main_image']); ?>" 
+                             alt="<?php echo htmlspecialchars($tile['title']); ?>"
+                             id="main-tile-image"
+                             onerror="this.src='https://images.unsplash.com/photo-1615971677499-5467cbab01c0?w=800&q=80'">
+                        <span class="sale-badge">Angebot</span>
+                    </div>
+                    <?php if (!empty($tile['gallery_images'])): ?>
+                    <div class="thumbnail-row">
+                        <img src="assets/img/tile-of-month/<?php echo htmlspecialchars($tile['main_image']); ?>" 
+                             alt="Hauptbild" 
+                             class="thumbnail active"
+                             onclick="changeMainImage(this.src)">
+                        <?php foreach ($tile['gallery_images'] as $img): ?>
+                        <img src="assets/img/tile-of-month/<?php echo htmlspecialchars($img); ?>" 
+                             alt="Galeriebild" 
+                             class="thumbnail"
+                             onclick="changeMainImage(this.src)">
+                        <?php endforeach; ?>
+                    </div>
+                    <?php endif; ?>
                 </div>
-                
-                <div class="tile-detail-content">
-                    <div class="tile-detail-gallery">
-                        <div class="tile-main-image">
-                            <img src="assets/img/tile-of-month/<?php echo htmlspecialchars($tile_data['main_image']); ?>" alt="<?php echo htmlspecialchars($tile_data['title']); ?> Hauptbild" class="img-fluid">
-                        </div>
-                        <div class="tile-thumbnails">
-                            <?php foreach ($tile_data['detail_images'] as $index => $image): ?>
-                                <img src="assets/img/tile-of-month/<?php echo htmlspecialchars($image); ?>" alt="Detailansicht <?php echo $index + 1; ?>" class="img-fluid">
-                            <?php endforeach; ?>
-                        </div>
+
+                <div class="tile-info">
+                    <div class="tile-meta">
+                        <span class="month-badge"><?php echo htmlspecialchars($tile['month']); ?></span>
                     </div>
                     
-                    <div class="tile-detail-info">
-                        <div class="tile-price-box">
-                            <div class="price-comparison">
-                                <span class="old-price"><?php echo htmlspecialchars($tile_data['old_price']); ?> €/m²</span>
-                                <span class="new-price"><?php echo htmlspecialchars($tile_data['new_price']); ?> €/m²</span>
-                            </div>
-                            <span class="price-save">Sie sparen: <?php echo htmlspecialchars($tile_data['saving']); ?> €/m²</span>
-                        </div>
-                        
-                        <div class="tile-specs">
-                            <h3>Produktdetails</h3>
-                            <ul class="specs-list">
-                                <li><strong>Format:</strong> <?php echo htmlspecialchars($tile_data['format']); ?></li>
-                                <li><strong>Material:</strong> <?php echo htmlspecialchars($tile_data['material']); ?></li>
-                                <li><strong>Optik:</strong> <?php echo htmlspecialchars($tile_data['look']); ?></li>
-                                <li><strong>Oberfläche:</strong> <?php echo htmlspecialchars($tile_data['surface']); ?></li>
-                                <li><strong>Eigenschaften:</strong> <?php echo htmlspecialchars($tile_data['properties']); ?></li>
-                                <li><strong>Einsatzbereich:</strong> <?php echo htmlspecialchars($tile_data['usage']); ?></li>
-                                <li><strong>Fußbodenheizung:</strong> <?php echo htmlspecialchars($tile_data['floor_heating']); ?></li>
-                                <li><strong>Verfügbarkeit:</strong> <?php echo htmlspecialchars($tile_data['availability']); ?></li>
-                            </ul>
-                        </div>
-                        
-                        <div class="tile-description">
-                            <h3>Produktbeschreibung</h3>
-                            <?php foreach ($tile_data['detailed_description'] as $paragraph): ?>
-                                <p><?php echo htmlspecialchars($paragraph); ?></p>
+                    <h2 class="tile-title"><?php echo htmlspecialchars($tile['title']); ?></h2>
+                    
+                    <p class="tile-description">
+                        <?php echo htmlspecialchars($tile['description']); ?>
+                    </p>
+
+                    <div class="tile-features">
+                        <h3>Eigenschaften</h3>
+                        <ul class="feature-list">
+                            <?php foreach ($tile['features'] as $feature): ?>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 6L9 17l-5-5"/>
+                                </svg>
+                                <?php echo htmlspecialchars($feature); ?>
+                            </li>
                             <?php endforeach; ?>
+                        </ul>
+                    </div>
+
+                    <div class="tile-pricing">
+                        <div class="price-block">
+                            <span class="old-price"><?php echo htmlspecialchars($tile['old_price']); ?> €/m²</span>
+                            <span class="current-price"><?php echo htmlspecialchars($tile['new_price']); ?> <span>€/m²</span></span>
                         </div>
-                        
-                        <div class="tile-cta">
-                            <a href="kontakt.html" class="btn">Unverbindlich anfragen</a>
-                            <a href="tel:+17610432567" class="btn btn-secondary">0176 / 10432567</a>
+                        <div class="savings">
+                            <span class="save-badge">Sie sparen <?php echo htmlspecialchars($tile['saving']); ?> €/m²</span>
                         </div>
+                    </div>
+
+                    <div class="tile-actions">
+                        <a href="kontakt.html?subject=fliese-des-monats" class="btn-primary btn-large">
+                            Jetzt anfragen
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="tel:+4917610432567" class="btn-secondary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                            </svg>
+                            Anrufen
+                        </a>
+                    </div>
+
+                    <div class="tile-note">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 16v-4M12 8h.01"/>
+                        </svg>
+                        <p>Angebot gültig solange der Vorrat reicht. Verlegung auf Anfrage.</p>
                     </div>
                 </div>
             </div>
-        </section>
-        
-        <section class="cta-section">
-            <div class="container">
-                <div class="cta-content">
-                    <h2>Interesse geweckt?</h2>
-                    <p>Kontaktieren Sie uns für eine persönliche Beratung oder besuchen Sie unsere Ausstellung in Steinfeld.</p>
-                    <div class="cta-buttons">
-                        <a href="kontakt.html" class="btn">Kontakt aufnehmen</a>
-                        <a href="galerie.html" class="btn btn-secondary">Weitere Referenzen ansehen</a>
+        </div>
+    </section>
+
+    <section class="why-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Warum bei uns kaufen?</div>
+                <h2 class="section-title">Ihre Vorteile</h2>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
                     </div>
+                    <h3>Qualitätsgarantie</h3>
+                    <p>Nur hochwertige Markenware von renommierten Herstellern.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M16 8l-4 4-2-2"/>
+                        </svg>
+                    </div>
+                    <h3>Fachberatung</h3>
+                    <p>Kompetente Beratung durch unsere erfahrenen Fliesenleger.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="3" width="15" height="13"/>
+                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+                            <circle cx="5.5" cy="18.5" r="2.5"/>
+                            <circle cx="18.5" cy="18.5" r="2.5"/>
+                        </svg>
+                    </div>
+                    <h3>Lieferung möglich</h3>
+                    <p>Wir liefern auf Wunsch direkt zu Ihnen nach Hause.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+                        </svg>
+                    </div>
+                    <h3>Verlegung inklusive</h3>
+                    <p>Auf Wunsch übernehmen wir auch die fachgerechte Verlegung.</p>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-inner">
+                <div class="section-label" style="justify-content: center;">Interesse geweckt?</div>
+                <h2 class="section-title">
+                    Sichern Sie sich jetzt<br>
+                    dieses Angebot
+                </h2>
+                <p>
+                    Kontaktieren Sie uns für eine unverbindliche Beratung. 
+                    Wir beantworten gerne Ihre Fragen.
+                </p>
+                <div class="cta-actions">
+                    <a href="kontakt.html?subject=fliese-des-monats" class="btn-primary">
+                        Jetzt anfragen
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="tel:+4917610432567" class="btn-secondary">
+                        0176 / 10432567
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-info">
-                    <h3>Fliesen Runnebaum</h3>
-                    <p>Rouen Kamp 1<br>49439 Steinfeld</p>
-                    <p>Telefon: 0176 / 10432567<br>E-Mail: info@fliesen-runnebaum.net</p>
+                <div class="footer-brand">
+                    <a href="index.php" class="logo">Fliesen Runnebaum</a>
+                    <p>
+                        Ihr zuverlässiger Fliesenleger in Steinfeld und Umgebung. 
+                        Qualität und Präzision seit über 20 Jahren.
+                    </p>
                 </div>
                 <div class="footer-nav">
-                    <h3>Navigation</h3>
+                    <h4>Navigation</h4>
                     <ul>
                         <li><a href="index.php">Start</a></li>
                         <li><a href="leistungen.html">Leistungen</a></li>
@@ -171,20 +252,84 @@ if (empty($tile_data)) {
                         <li><a href="kontakt.html">Kontakt</a></li>
                     </ul>
                 </div>
+                <div class="footer-info">
+                    <h4>Kontakt</h4>
+                    <ul>
+                        <li><a href="tel:+4917610432567">0176 / 10432567</a></li>
+                        <li><a href="mailto:info@fliesen-runnebaum.net">info@fliesen-runnebaum.net</a></li>
+                    </ul>
+                </div>
                 <div class="footer-hours">
-                    <h3>Öffnungszeiten</h3>
-                    <p>Mo - Fr: 8:00 - 17:00 Uhr<br>Sa: Nach Vereinbarung<br>So: Geschlossen</p>
+                    <h4>Adresse</h4>
+                    <ul>
+                        <li>Rouen Kamp 1</li>
+                        <li>49439 Steinfeld</li>
+                    </ul>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; <?php echo date('Y'); ?> Fliesen Runnebaum. Alle Rechte vorbehalten.</p>
-                <p><a href="impressum.html">Impressum</a> | <a href="datenschutz.html">Datenschutz</a></p>
+                <div>
+                    <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a>
+                </div>
             </div>
         </div>
     </footer>
-    <a href="#" class="back-to-top" aria-label="Nach oben scrollen">&#8679;</a>
 
-   <script src="assets/js/header-scroll.js"></script>
+    <div class="modal-overlay" id="cookie-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Cookie-Einstellungen</h2>
+                <button class="modal-close" id="cookie-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Wir verwenden Cookies, um Ihnen die bestmögliche Erfahrung auf unserer Website zu bieten. Sie können selbst entscheiden, welche Cookies Sie zulassen möchten.</p>
+                
+                <div class="cookie-options">
+                    <div class="cookie-option">
+                        <input type="checkbox" id="essential-cookies" checked disabled>
+                        <label for="essential-cookies">
+                            <strong>Notwendige Cookies</strong>
+                            <p>Diese Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden.</p>
+                        </label>
+                    </div>
+                    
+                    <div class="cookie-option">
+                        <input type="checkbox" id="analytics-cookies">
+                        <label for="analytics-cookies">
+                            <strong>Analyse-Cookies</strong>
+                            <p>Helfen uns zu verstehen, wie Besucher mit unserer Website interagieren.</p>
+                        </label>
+                    </div>
+                    
+                    <div class="cookie-option">
+                        <input type="checkbox" id="marketing-cookies">
+                        <label for="marketing-cookies">
+                            <strong>Marketing-Cookies</strong>
+                            <p>Werden verwendet, um Besuchern relevante Werbung anzuzeigen.</p>
+                        </label>
+                    </div>
+                </div>
+                
+                <p class="cookie-info-text">Weitere Informationen finden Sie in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="cookie-reject-all" class="btn-outline">Alle ablehnen</button>
+                <button id="cookie-save" class="btn-secondary">Auswahl speichern</button>
+                <button id="cookie-accept-all" class="btn-primary">Alle akzeptieren</button>
+            </div>
+        </div>
+    </div>
 
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/header-scroll.js"></script>
+    <script src="assets/js/cookie.js"></script>
+    <script>
+    function changeMainImage(src) {
+        document.getElementById('main-tile-image').src = src;
+        document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+    }
+    </script>
 </body>
 </html>
