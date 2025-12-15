@@ -7,6 +7,8 @@
     <meta name="description" content="Unsere Referenzen: Badezimmer, Küchen, Wohnräume und Terrassen. Sehen Sie unsere hochwertigen Fliesenarbeiten in Steinfeld und Umgebung.">
     <link rel="icon" href="assets/img/fliesenrunnebaum_favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/cookie.css">
+    <link rel="stylesheet" href="assets/css/lightbox-fix.css">
 </head>
 <body>
     <header class="header" id="header">
@@ -51,7 +53,7 @@
                 <button class="filter-btn" data-filter="outdoor">Außenbereich</button>
             </div>
 
-            <div class="gallery-grid">
+            <div class="gallery-grid" id="gallery">
                 <div class="gallery-item" data-category="bathroom">
                     <img src="assets/img/gallery/bad_beton.png" alt="Badezimmer Projekt 1">
                     <div class="gallery-overlay">
@@ -197,8 +199,66 @@
         </div>
     </footer>
 
+    <div class="modal-overlay" id="cookie-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Cookie-Einstellungen</h2>
+                <button class="modal-close" id="cookie-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Wir verwenden Cookies, um Ihnen die bestmögliche Erfahrung auf unserer Website zu bieten. Sie können selbst entscheiden, welche Cookies Sie zulassen möchten.</p>
+                
+                <div class="cookie-options">
+                    <div class="cookie-option">
+                        <input type="checkbox" id="essential-cookies" checked disabled>
+                        <label for="essential-cookies">
+                            <strong>Notwendige Cookies</strong>
+                            <p>Diese Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden.</p>
+                        </label>
+                    </div>
+                    
+                    <div class="cookie-option">
+                        <input type="checkbox" id="analytics-cookies">
+                        <label for="analytics-cookies">
+                            <strong>Analyse-Cookies</strong>
+                            <p>Helfen uns zu verstehen, wie Besucher mit unserer Website interagieren.</p>
+                        </label>
+                    </div>
+                    
+                    <div class="cookie-option">
+                        <input type="checkbox" id="marketing-cookies">
+                        <label for="marketing-cookies">
+                            <strong>Marketing-Cookies</strong>
+                            <p>Werden verwendet, um Besuchern relevante Werbung anzuzeigen.</p>
+                        </label>
+                    </div>
+                </div>
+                
+                <p class="cookie-info-text">Weitere Informationen finden Sie in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="cookie-reject-all" class="btn-outline">Alle ablehnen</button>
+                <button id="cookie-save" class="btn-secondary">Auswahl speichern</button>
+                <button id="cookie-accept-all" class="btn-primary">Alle akzeptieren</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="lightbox" id="lightbox" style="display: none;">
+        <span class="lightbox-close" id="lightbox-close">&times;</span>
+        <div class="lightbox-content">
+            <img src="" alt="" id="lightbox-img" class="lightbox-img">
+        </div>
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+        <div class="lightbox-nav">
+            <button class="lightbox-prev" id="lightbox-prev">&#10094;</button>
+            <button class="lightbox-next" id="lightbox-next">&#10095;</button>
+        </div>
+    </div>
+
     <script src="assets/js/main.js"></script>
     <script src="assets/js/header-scroll.js"></script>
     <script src="assets/js/gallery.js"></script>
+    <script src="assets/js/cookie.js"></script>
 </body>
 </html>
