@@ -8,14 +8,13 @@
   <meta name="robots" content="index, follow">
   <meta name="author" content="Fliesen Runnebaum">
   <link rel="canonical" href="https://fliesen-runnebaum.net/impressum.html">
-  
   <link rel="icon" href="assets/img/fliesenrunnebaum_favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="assets/css/fonts.css">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/common.css">
   <link rel="stylesheet" href="assets/css/animations.css">
   <link rel="stylesheet" href="assets/css/legal-pages.css">
-  
+  <link rel="stylesheet" href="assets/css/cookie.css">
   <script src="assets/js/main.js" defer></script>
   <script src="assets/js/animations.js" defer></script>
   <script src="assets/js/preloader.js" defer></script>
@@ -83,16 +82,6 @@
       E-Mail: <a href="mailto:info@hwk-ol.de">info@hwk-ol.de</a><br>
       Website: <a href="https://www.hwk-ol.de" target="_blank" rel="noopener">www.hwk-ol.de</a></p>
       
-      <!-- <h2>Berufshaftpflichtversicherung</h2>
-      <p>Berufshaftpflichtversicherung besteht bei:<br>
-      <strong>Versicherungsgesellschaft:</strong> [Bitte ergänzen]<br>
-      <strong>Geltungsraum:</strong> Deutschland/Europa<br>
-      <strong>Versicherungssumme:</strong> [Bitte ergänzen]</p>
-      
-      <div class="legal-info-box">
-        <p><strong>Hinweis:</strong> Die Angaben zur Berufshaftpflichtversicherung müssen noch vervollständigt werden. Bitte ergänzen Sie die entsprechenden Daten Ihrer Versicherung.</p>
-      </div> -->
-      
       <h2>Redaktionell verantwortlich</h2>
       <p>Oliver Runnebaum<br>
       Rouen Kamp 1<br>
@@ -116,14 +105,6 @@
       <h2>Urheberrecht</h2>
       <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.</p>
       <p>Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.</p>
-      
-      <!-- <h2>Bildnachweise</h2>
-      <p>Die auf dieser Website verwendeten Bilder und Grafiken unterliegen dem Urheberrecht. Soweit nicht anders angegeben, stammen alle Bilder von:</p>
-      <ul>
-        <li>Eigene Aufnahmen: Fliesen Runnebaum</li>
-        <li>Stockfotos: [Bitte ergänzen bei Verwendung]</li>
-        <li>Herstellerbilder: Mit freundlicher Genehmigung der jeweiligen Fliesenhersteller</li>
-      </ul> -->
       
       <h2>Technische Umsetzung</h2>
       <p>Website-Entwicklung: Marcel Menke<br>
@@ -165,6 +146,52 @@
   
   <a href="#" class="back-to-top" aria-label="Nach oben scrollen">&#8679;</a>
 
+  <div class="modal-overlay" id="cookie-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Cookie-Einstellungen</h2>
+        <button class="modal-close" id="cookie-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Wir verwenden Cookies, um Ihnen die bestmögliche Erfahrung auf unserer Website zu bieten. Sie können selbst entscheiden, welche Cookies Sie zulassen möchten.</p>
+        
+        <div class="cookie-options">
+          <div class="cookie-option">
+            <input type="checkbox" id="essential-cookies" checked disabled>
+            <label for="essential-cookies">
+              <strong>Notwendige Cookies</strong>
+              <p>Diese Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden.</p>
+            </label>
+          </div>
+          
+          <div class="cookie-option">
+            <input type="checkbox" id="analytics-cookies">
+            <label for="analytics-cookies">
+              <strong>Analyse-Cookies</strong>
+              <p>Helfen uns zu verstehen, wie Besucher mit unserer Website interagieren.</p>
+            </label>
+          </div>
+          
+          <div class="cookie-option">
+            <input type="checkbox" id="marketing-cookies">
+            <label for="marketing-cookies">
+              <strong>Marketing-Cookies</strong>
+              <p>Werden verwendet, um Besuchern relevante Werbung anzuzeigen.</p>
+            </label>
+          </div>
+        </div>
+        
+        <p class="cookie-info-text">Weitere Informationen finden Sie in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+      </div>
+      <div class="modal-footer">
+        <button id="cookie-reject-all" class="btn-outline">Alle ablehnen</button>
+        <button id="cookie-save" class="btn-secondary">Auswahl speichern</button>
+        <button id="cookie-accept-all" class="btn-primary">Alle akzeptieren</button>
+      </div>
+    </div>
+  </div>
+
   <script src="assets/js/header-scroll.js"></script>
+  <script src="assets/js/cookie.js"></script>
 </body>
 </html>
