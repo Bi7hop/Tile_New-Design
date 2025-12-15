@@ -1,443 +1,507 @@
-.page-header {
-    padding: 12rem 0 6rem;
+.tile-header {
+    padding: 10rem 0 4rem;
     background: linear-gradient(135deg, var(--clay-light), var(--cream));
     text-align: center;
 }
 
-.page-header h1 {
-    font-family: var(--font-display);
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    color: var(--charcoal);
-    margin-bottom: 1rem;
-    line-height: 1.1;
+.tile-detail {
+    padding: 4rem 0;
 }
 
-.page-header p {
-    font-size: 1.2rem;
-    color: var(--slate-soft);
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.tile-detail-section {
-    padding: 6rem 0;
-}
-
-.tile-detail-header {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.tile-month-badge {
-    display: inline-block;
-    background-color: var(--terracotta);
-    color: var(--white);
-    padding: 0.5rem 1.5rem;
-    border-radius: 30px;
-    font-weight: 600;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
-
-.tile-detail-header h2 {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 4vw, 3rem);
-    color: var(--charcoal);
-    margin: 0;
-}
-
-.tile-detail-content {
+.tile-detail-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 3rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
     align-items: start;
 }
 
-@media (min-width: 992px) {
-    .tile-detail-content {
-        grid-template-columns: 1.2fr 1fr;
-    }
+.tile-gallery {
+    position: relative;
 }
 
-.tile-detail-gallery {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.tile-main-image {
-    border-radius: 20px;
+.main-image {
+    position: relative;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
 }
 
-.tile-main-image img {
+.main-image img {
     width: 100%;
     height: auto;
     display: block;
     transition: transform 0.6s ease;
 }
 
-.tile-main-image:hover img {
-    transform: scale(1.05);
+.main-image:hover img {
+    transform: scale(1.03);
 }
 
-.tile-thumbnails {
+.sale-badge {
+    position: absolute;
+    top: 1.5rem;
+    left: 0;
+    background: var(--terracotta);
+    color: white;
+    padding: 0.6rem 1.5rem 0.6rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+}
+
+.thumbnail-row {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
+    margin-top: 1.5rem;
 }
 
-.tile-thumbnails img {
-    border-radius: 12px;
+.thumbnail {
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    width: 100%;
-    height: 120px;
+    opacity: 0.6;
+    height: 80px;
     object-fit: cover;
 }
 
-.tile-thumbnails img:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+.thumbnail:hover,
+.thumbnail.active {
+    opacity: 1;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.tile-detail-info {
+.tile-info {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 1.5rem;
 }
 
-.tile-price-box {
+.tile-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.month-badge {
+    display: inline-block;
+    background: var(--clay-light);
+    color: var(--slate);
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.tile-title {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    color: var(--charcoal);
+    line-height: 1.2;
+    margin: 0;
+}
+
+.tile-description {
+    font-size: 1.1rem;
+    color: var(--slate-soft);
+    line-height: 1.8;
+    margin: 0;
+}
+
+.tile-features h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--charcoal);
+    margin-bottom: 1rem;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.feature-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--slate);
+    font-size: 1rem;
+}
+
+.feature-list li svg {
+    color: var(--terracotta);
+    flex-shrink: 0;
+}
+
+.tile-pricing {
     background: linear-gradient(135deg, var(--clay-light), var(--cream));
-    border-radius: 20px;
-    padding: 2rem;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 1.5rem;
     border: 2px solid var(--clay);
 }
 
-.price-comparison {
+.price-block {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-bottom: 1rem;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
     flex-wrap: wrap;
 }
 
 .old-price {
-    text-decoration: line-through;
+    font-size: 1.1rem;
     color: var(--stone);
-    font-size: 1.3rem;
+    text-decoration: line-through;
 }
 
-.new-price {
+.current-price {
     font-family: var(--font-display);
     font-size: 2.5rem;
-    font-weight: 700;
     color: var(--terracotta);
+    font-weight: 600;
 }
 
-.price-save {
+.current-price span {
+    font-size: 1rem;
+    color: var(--slate-soft);
+    font-weight: 400;
+}
+
+.save-badge {
     display: inline-block;
     background: linear-gradient(135deg, var(--forest), var(--stone));
-    color: var(--white);
-    padding: 0.5rem 1.2rem;
-    border-radius: 30px;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
     font-weight: 600;
-    font-size: 0.9rem;
 }
 
-.tile-specs,
-.tile-description {
-    background-color: var(--white);
-    border-radius: 20px;
-    padding: 2rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-}
-
-.tile-specs h3,
-.tile-description h3 {
-    font-family: var(--font-display);
-    color: var(--charcoal);
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-    position: relative;
-    padding-bottom: 0.8rem;
-}
-
-.tile-specs h3::after,
-.tile-description h3::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 60px;
-    height: 3px;
-    background-color: var(--terracotta);
-}
-
-.specs-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.specs-list li {
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--clay-light);
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    gap: 1rem;
-}
-
-.specs-list li:last-child {
-    border-bottom: none;
-}
-
-.specs-list li strong {
-    color: var(--charcoal);
-    font-weight: 600;
-    white-space: nowrap;
-}
-
-.tile-description p {
-    color: var(--slate-soft);
-    line-height: 1.8;
-    margin-bottom: 1rem;
-}
-
-.tile-description p:last-child {
-    margin-bottom: 0;
-}
-
-.tile-cta {
+.tile-actions {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
 }
 
-.tile-cta .btn {
+.tile-actions .btn-primary {
     flex: 1;
     min-width: 200px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.8rem;
-    background: var(--charcoal);
-    color: white;
-    padding: 1.2rem 2rem;
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    font-weight: 600;
-    border-radius: 6px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: none;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    text-decoration: none;
 }
 
-.tile-cta .btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: var(--terracotta);
-    transition: left 0.4s ease;
-    z-index: -1;
-}
-
-.tile-cta .btn:hover::before {
-    left: 0;
-}
-
-.tile-cta .btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(198, 123, 92, 0.3);
-}
-
-.tile-cta .btn-secondary {
+.tile-actions .btn-secondary {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     background: transparent;
     color: var(--slate);
-    padding: 0.5rem;
+    padding: 1rem;
     font-weight: 500;
-    border: none;
+    border: 2px solid var(--clay-light);
+    border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease;
+    text-decoration: none;
 }
 
-.tile-cta .btn-secondary::before {
-    display: none;
-}
-
-.tile-cta .btn-secondary:hover {
+.tile-actions .btn-secondary:hover {
+    border-color: var(--terracotta);
     color: var(--terracotta);
-    gap: 1rem;
-    transform: none;
-    box-shadow: none;
 }
 
-.cta-section {
-    padding: 8rem 0;
-    background: linear-gradient(135deg, var(--clay-light), var(--cream));
-    text-align: center;
-}
-
-.cta-section .container {
-    max-width: 800px;
-}
-
-.cta-content h2 {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    color: var(--charcoal);
-    margin-bottom: 1.5rem;
-}
-
-.cta-content p {
-    font-size: 1.2rem;
-    color: var(--slate-soft);
-    margin-bottom: 3rem;
-}
-
-.cta-buttons {
+.tile-note {
     display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--cream);
+    border-radius: 8px;
+    border-left: 3px solid var(--clay);
 }
 
-.cta-buttons .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.8rem;
+.tile-note svg {
+    color: var(--stone);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.tile-note p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--slate-soft);
+    line-height: 1.5;
+}
+
+.why-section {
+    padding: 6rem 0;
     background: var(--charcoal);
+}
+
+.why-section .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.why-section .section-label {
+    color: var(--clay);
+}
+
+.why-section .section-label::after {
+    background: var(--clay);
+}
+
+.why-section .section-title {
     color: white;
-    padding: 1.2rem 2rem;
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    font-weight: 600;
-    border-radius: 6px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: none;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    text-decoration: none;
 }
 
-.cta-buttons .btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: var(--terracotta);
-    transition: left 0.4s ease;
-    z-index: -1;
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
 }
 
-.cta-buttons .btn:hover::before {
-    left: 0;
+.benefit-card {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    transition: transform 0.3s ease;
 }
 
-.cta-buttons .btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(198, 123, 92, 0.3);
+.benefit-card:hover {
+    transform: translateY(-5px);
 }
 
-.cta-buttons .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: transparent;
-    color: var(--slate);
-    padding: 0.5rem;
-    font-weight: 500;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.cta-buttons .btn-secondary::before {
-    display: none;
-}
-
-.cta-buttons .btn-secondary:hover {
-    color: var(--terracotta);
-    gap: 1rem;
-    transform: none;
-    box-shadow: none;
-}
-
-.back-to-top {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    width: 50px;
-    height: 50px;
-    background-color: var(--terracotta);
-    color: var(--white);
+.benefit-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--terracotta), var(--clay));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-    text-decoration: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-    opacity: 0;
-    pointer-events: none;
+    margin: 0 auto 1.5rem;
 }
 
-.back-to-top.visible {
-    opacity: 1;
-    pointer-events: all;
+.benefit-icon svg {
+    color: white;
 }
 
-.back-to-top:hover {
-    background-color: var(--terracotta-dark);
-    transform: translateY(-5px);
+.benefit-card h3 {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+
+.benefit-card p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+@media (max-width: 992px) {
+    .tile-detail-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+    
+    .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 768px) {
-    .tile-detail-section {
-        padding: 4rem 0;
+    .tile-header {
+        padding: 8rem 0 3rem;
     }
-
-    .tile-cta {
+    
+    .tile-header .page-title {
+        font-size: 1.75rem;
+    }
+    
+    .tile-detail {
+        padding: 2rem 0;
+    }
+    
+    .tile-detail-grid {
+        gap: 2rem;
+    }
+    
+    .main-image {
+        border-radius: 12px;
+    }
+    
+    .sale-badge {
+        font-size: 0.7rem;
+        padding: 0.5rem 1.25rem 0.5rem 0.75rem;
+    }
+    
+    .thumbnail-row {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    
+    .thumbnail {
+        height: 60px;
+        border-radius: 6px;
+    }
+    
+    .tile-info {
+        text-align: center;
+        gap: 1.25rem;
+    }
+    
+    .tile-meta {
+        justify-content: center;
+    }
+    
+    .tile-title {
+        font-size: 1.75rem;
+    }
+    
+    .tile-description {
+        font-size: 1rem;
+    }
+    
+    .tile-features {
+        text-align: left;
+    }
+    
+    .tile-features h3 {
+        text-align: center;
+        font-size: 1.1rem;
+    }
+    
+    .feature-list {
+        align-items: center;
+    }
+    
+    .feature-list li {
+        font-size: 0.95rem;
+    }
+    
+    .tile-pricing {
+        padding: 1.25rem;
+        border-radius: 12px;
+        text-align: center;
+    }
+    
+    .price-block {
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .current-price {
+        font-size: 2rem;
+    }
+    
+    .tile-actions {
         flex-direction: column;
     }
-
-    .tile-cta .btn {
+    
+    .tile-actions .btn-primary,
+    .tile-actions .btn-secondary {
         width: 100%;
+        justify-content: center;
         min-width: auto;
     }
-
-    .cta-buttons {
-        flex-direction: column;
-        align-items: stretch;
+    
+    .tile-note {
+        text-align: left;
     }
-
-    .cta-buttons .btn {
-        width: 100%;
+    
+    .why-section {
+        padding: 4rem 0;
     }
+    
+    .why-section .section-header {
+        margin-bottom: 2.5rem;
+    }
+    
+    .benefits-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+    
+    .benefit-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .benefit-icon {
+        width: 56px;
+        height: 56px;
+        margin-bottom: 1rem;
+    }
+    
+    .benefit-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .benefit-card h3 {
+        font-size: 1rem;
+    }
+    
+    .benefit-card p {
+        font-size: 0.8rem;
+    }
+}
 
-    .tile-thumbnails {
-        grid-template-columns: repeat(2, 1fr);
+@media (max-width: 480px) {
+    .tile-header {
+        padding: 7rem 0 2rem;
+    }
+    
+    .tile-header .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .tile-title {
+        font-size: 1.5rem;
+    }
+    
+    .thumbnail-row {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .current-price {
+        font-size: 1.75rem;
+    }
+    
+    .benefits-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .benefit-card {
+        display: flex;
+        align-items: center;
+        text-align: left;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .benefit-icon {
+        margin: 0;
+        width: 50px;
+        height: 50px;
+        flex-shrink: 0;
+    }
+    
+    .benefit-card h3 {
+        margin-bottom: 0.25rem;
     }
 }
