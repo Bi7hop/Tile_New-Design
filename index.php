@@ -30,6 +30,7 @@ if (!$tile) {
     <link rel="icon" href="assets/img/fliesenrunnebaum_favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/cookie.css">
+    <link rel="stylesheet" href="assets/css/lager-banner.css">
 </head>
 <body>
     <header class="header" id="header">
@@ -347,5 +348,6 @@ if (!$tile) {
     <script src="assets/js/main.js"></script>
     <script src="assets/js/header-scroll.js"></script>
     <script src="assets/js/cookie.js"></script>
+    <script src="assets/js/lager-banner.js"></script>
 </body>
 </html>
