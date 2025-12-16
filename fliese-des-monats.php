@@ -39,6 +39,7 @@ if (isset($tile['saving'])) {
     <title>Fliese des Monats - <?php echo htmlspecialchars($tile['title']); ?> | Fliesen Runnebaum</title>
     <meta name="description" content="<?php echo htmlspecialchars($tile['title']); ?> - Unser Angebot des Monats. <?php echo htmlspecialchars($tile['description']); ?>">
     <link rel="icon" href="assets/img/fliesenrunnebaum_favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/fonts.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/fliese-des-monats.css">
     <link rel="stylesheet" href="assets/css/cookie.css">
