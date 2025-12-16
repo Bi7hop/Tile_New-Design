@@ -21,7 +21,7 @@ function showLagerBanner() {
             </div>
             <div class="lager-banner-text">
                 <strong>Jeden Freitag Lagerverkauf!</strong>
-                <span>8:00 - 16:00 Uhr · Rouen Kamp 1, Steinfeld</span>
+                <span>13:00 - 18:00 Uhr · Rouen Kamp 1, Steinfeld</span>
             </div>
             <button class="lager-banner-close" aria-label="Banner schließen">&times;</button>
         </div>
