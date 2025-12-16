@@ -47,7 +47,9 @@ if (isset($tile['saving'])) {
     <header class="header" id="header">
         <div class="container">
             <nav class="navbar">
-                <a href="index.php" class="logo">Fliesen Runnebaum</a>
+                <a href="index.php" class="logo">
+                    <img src="assets/img/logotest.png" alt="Fliesen Runnebaum" style="height: 50px; width: auto;">
+                </a>
                 <button class="menu-toggle" aria-label="Menü öffnen">
                     <span></span>
                     <span></span>
@@ -396,7 +398,9 @@ if (isset($tile['saving'])) {
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <a href="index.php" class="logo">Fliesen Runnebaum</a>
+                    <a href="index.php" class="logo">
+                        <img src="assets/img/logotest.png" alt="Fliesen Runnebaum" style="height: 40px; width: auto;">
+                    </a>
                     <p>
                         Ihr zuverlässiger Fliesenleger in Steinfeld und Umgebung. 
                         Qualität und Präzision seit über 20 Jahren.
