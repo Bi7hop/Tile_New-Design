@@ -19,6 +19,17 @@ if (!$tile) {
         'saving' => '10,00'
     ];
 }
+
+// Preise formatieren (Punkt durch Komma ersetzen)
+if (isset($tile['old_price'])) {
+    $tile['old_price'] = str_replace('.', ',', $tile['old_price']);
+}
+if (isset($tile['new_price'])) {
+    $tile['new_price'] = str_replace('.', ',', $tile['new_price']);
+}
+if (isset($tile['saving'])) {
+    $tile['saving'] = str_replace('.', ',', $tile['saving']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -73,17 +84,18 @@ if (!$tile) {
                              onerror="this.src='https://images.unsplash.com/photo-1615971677499-5467cbab01c0?w=800&q=80'">
                         <span class="sale-badge">Angebot</span>
                     </div>
-                    <?php if (!empty($tile['gallery_images'])): ?>
+                    <?php if (!empty($tile['detail_images'])): ?>
                     <div class="thumbnail-row">
                         <img src="assets/img/tile-of-month/<?php echo htmlspecialchars($tile['main_image']); ?>" 
                              alt="Hauptbild" 
                              class="thumbnail active"
                              onclick="changeMainImage(this.src)">
-                        <?php foreach ($tile['gallery_images'] as $img): ?>
+                        <?php foreach ($tile['detail_images'] as $img): ?>
                         <img src="assets/img/tile-of-month/<?php echo htmlspecialchars($img); ?>" 
-                             alt="Galeriebild" 
+                             alt="Detailbild" 
                              class="thumbnail"
-                             onclick="changeMainImage(this.src)">
+                             onclick="changeMainImage(this.src)"
+                             onerror="this.style.display='none'">
                         <?php endforeach; ?>
                     </div>
                     <?php endif; ?>
@@ -150,6 +162,155 @@ if (!$tile) {
             </div>
         </div>
     </section>
+
+    <!-- Produktdetails Section -->
+    <?php if (!empty($tile['format']) || !empty($tile['material']) || !empty($tile['look']) || 
+              !empty($tile['surface']) || !empty($tile['properties']) || !empty($tile['usage']) || 
+              !empty($tile['floor_heating']) || !empty($tile['availability'])): ?>
+    <section class="product-specs section-spacing">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Technische Details</div>
+                <h2 class="section-title">Produktspezifikationen</h2>
+            </div>
+            
+            <div class="specs-grid">
+                <?php if (!empty($tile['format'])): ?>
+                <div class="spec-item">
+                    <div class="spec-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        </svg>
+                    </div>
+                    <div class="spec-content">
+                        <h4>Format</h4>
+                        <p><?php echo htmlspecialchars($tile['format']); ?></p>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <?php if (!empty($tile['material'])): ?>
+                <div class="spec-item">
+                    <div class="spec-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <div class="spec-content">
+                        <h4>Material</h4>
+                        <p><?php echo htmlspecialchars($tile['material']); ?></p>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <?php if (!empty($tile['look'])): ?>
+                <div class="spec-item">
+                    <div class="spec-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </div>
+                    <div class="spec-content">
+                        <h4>Optik</h4>
+                        <p><?php echo htmlspecialchars($tile['look']); ?></p>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <?php if (!empty($tile['surface'])): ?>
+                <div class="spec-item">
+                    <div class="spec-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+                        </svg>
+                    </div>
+                    <div class="spec-content">
+                        <h4>Oberfläche</h4>
+                        <p><?php echo htmlspecialchars($tile['surface']); ?></p>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <?php if (!empty($tile['properties'])): ?>
+                <div class="spec-item">
+                    <div class="spec-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <div class="spec-content">
+                        <h4>Eigenschaften</h4>
+                        <p><?php echo htmlspecialchars($tile['properties']); ?></p>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <?php if (!empty($tile['usage'])): ?>
+                <div class="spec-item">
+                    <div class="spec-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <div class="spec-content">
+                        <h4>Einsatzbereich</h4>
+                        <p><?php echo htmlspecialchars($tile['usage']); ?></p>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <?php if (!empty($tile['floor_heating'])): ?>
+                <div class="spec-item">
+                    <div class="spec-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0z"/>
+                        </svg>
+                    </div>
+                    <div class="spec-content">
+                        <h4>Fußbodenheizung</h4>
+                        <p><?php echo htmlspecialchars($tile['floor_heating']); ?></p>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <?php if (!empty($tile['availability'])): ?>
+                <div class="spec-item">
+                    <div class="spec-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 6L9 17l-5-5"/>
+                        </svg>
+                    </div>
+                    <div class="spec-content">
+                        <h4>Verfügbarkeit</h4>
+                        <p><?php echo htmlspecialchars($tile['availability']); ?></p>
+                    </div>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
+    <?php endif; ?>
+
+    <!-- Detaillierte Beschreibung Section -->
+    <?php if (!empty($tile['detailed_description']) && is_array($tile['detailed_description'])): ?>
+    <section class="detailed-description section-spacing">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Details</div>
+                <h2 class="section-title">Ausführliche Produktbeschreibung</h2>
+            </div>
+            
+            <div class="description-content">
+                <?php foreach ($tile['detailed_description'] as $paragraph): ?>
+                    <?php if (!empty(trim($paragraph))): ?>
+                        <p><?php echo nl2br(htmlspecialchars(trim($paragraph))); ?></p>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+    <?php endif; ?>
 
     <section class="why-section">
         <div class="container">
