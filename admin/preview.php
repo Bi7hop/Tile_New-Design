@@ -101,7 +101,6 @@ $tile_data = $preview_data;
             box-shadow: 0 6px 16px rgba(231, 76, 60, 0.4);
         }
         
-        /* Custom Modal für Schließen-Bestätigung */
         .custom-modal {
             display: none;
             position: fixed;
@@ -192,7 +191,9 @@ $tile_data = $preview_data;
     <header class="header">
         <div class="container">
             <nav class="navbar">
-                <a href="../index.html" class="logo">Fliesen Runnebaum</a>
+                <a href="../index.php" class="logo">
+                    <img src="../assets/img/logotest.png" alt="Fliesen Runnebaum" style="height: 50px; width: auto;">
+                </a>
                 <span style="color: #ff6b35; font-weight: bold; font-size: 1.1rem;">VORSCHAU-MODUS</span>
             </nav>
         </div>
@@ -319,8 +320,6 @@ $tile_data = $preview_data;
                 cancelClose();
             }
         });
-        
-        
     </script>
 </body>
 </html>
