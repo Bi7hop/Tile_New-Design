@@ -103,7 +103,6 @@ $csrf_token = generate_csrf_token();
             color: #721c24;
         }
         
-        /* PASSWORT-INPUT FIX - VERSTÄRKT */
         .password-wrapper {
             position: relative !important;
             width: 100% !important;
@@ -143,7 +142,6 @@ $csrf_token = generate_csrf_token();
             pointer-events: none !important;
         }
         
-        /* Überschreibe alle möglichen form-control Styles */
         .form-group .password-wrapper .password-input {
             padding-right: 50px !important;
         }
@@ -152,7 +150,7 @@ $csrf_token = generate_csrf_token();
 <body class="login-page">
     <div class="login-container">
         <div class="login-header">
-            <img src="../assets/img/logo.png" alt="Fliesen Runnebaum" class="login-logo" onerror="this.style.display='none'">
+            <img src="../assets/img/logotest.png" alt="Fliesen Runnebaum" class="login-logo" style="width: 120px; height: auto;">
             <h1>Fliesen Runnebaum</h1>
             <p>Sicherer Admin-Bereich</p>
         </div>
@@ -229,7 +227,6 @@ $csrf_token = generate_csrf_token();
     </div>
     
     <script>
-        // Passwort anzeigen/verstecken
         document.getElementById('toggle-password').addEventListener('click', function() {
             const passwordField = document.getElementById('password');
             const icon = this.querySelector('i');
