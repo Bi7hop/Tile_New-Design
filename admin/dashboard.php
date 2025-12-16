@@ -14,6 +14,7 @@ $current_tile = get_current_tile();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/admin-style.css">
     <link rel="icon" href="assets/img/fliesenrunnebaum_favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/css/fonts.css">
 </head>
 <body>
     <div class="admin-layout">
