@@ -20,15 +20,17 @@ $current_tile = get_current_tile();
     <div class="admin-layout">
         <!-- Top-Navigation -->
         <header class="admin-topbar">
-            <div class="admin-logo">
-                <img src="../assets/img/logo.png" alt="Fliesen Runnebaum" onerror="this.style.display='none'">
-                <h1>Fliesen Runnebaum <span>Admin</span></h1>
-            </div>
-            <div class="user-menu">
-                <a href="logout.php" class="btn btn-outline">
-                    <i class="fas fa-sign-out-alt btn-icon"></i>
-                    Abmelden
-                </a>
+            <div class="admin-topbar-inner">
+                <div class="admin-logo">
+                    <img src="../assets/img/logotest.png" alt="Fliesen Runnebaum">
+                    <span>Admin</span>
+                </div>
+                <div class="user-menu">
+                    <a href="logout.php" class="btn btn-outline">
+                        <i class="fas fa-sign-out-alt btn-icon"></i>
+                        Abmelden
+                    </a>
+                </div>
             </div>
         </header>
         
