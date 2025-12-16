@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $confirm_password = $_POST['confirm_password'] ?? '';
         
         // Überprüfen, ob das aktuelle Passwort korrekt ist
-        if (!password_verify($current_password, ADMIN_PASSWORD)) {
+        if (!password_verify($current_password, ADMIN_PASSWORD_HASH)) {
             $message = 'Das aktuelle Passwort ist nicht korrekt.';
             $message_type = 'danger';
         } elseif ($new_password !== $confirm_password) {
