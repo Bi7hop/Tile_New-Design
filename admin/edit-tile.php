@@ -11,6 +11,17 @@ $tile_data = get_current_tile();
 
 // Wenn das Formular abgesendet wurde
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Debug-Ausgabe
+    error_log("=== TILE SAVE DEBUG ===");
+    error_log("Speichere nach: " . TILE_DATA_FILE);
+    error_log("DATA_PATH: " . DATA_PATH);
+    error_log("DATA_PATH exists: " . (file_exists(DATA_PATH) ? "JA" : "NEIN"));
+    error_log("DATA_PATH writable: " . (is_writable(DATA_PATH) ? "JA" : "NEIN"));
+    error_log("TILE_DATA_FILE exists: " . (file_exists(TILE_DATA_FILE) ? "JA" : "NEIN"));
+    if (file_exists(TILE_DATA_FILE)) {
+        error_log("TILE_DATA_FILE writable: " . (is_writable(TILE_DATA_FILE) ? "JA" : "NEIN"));
+    }
+    
     // Daten aus dem Formular übernehmen
     $tile_data['month'] = $_POST['month'] ?? $tile_data['month'];
     $tile_data['title'] = $_POST['title'] ?? $tile_data['title'];
@@ -44,9 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $upload_result = upload_image($_FILES['main_image'], UPLOAD_PATH);
         if ($upload_result['success']) {
             $tile_data['main_image'] = $upload_result['filename'];
+            error_log("Hauptbild hochgeladen: " . $upload_result['filename']);
         } else {
             $message = $upload_result['message'];
             $message_type = 'danger';
+            error_log("Hauptbild Upload FEHLER: " . $upload_result['message']);
         }
     }
     
@@ -66,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $upload_result = upload_image($file, UPLOAD_PATH);
                 if ($upload_result['success']) {
                     $detail_images[] = $upload_result['filename'];
+                    error_log("Detailbild hochgeladen: " . $upload_result['filename']);
                 }
             }
         }
@@ -76,11 +90,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tile_data['detail_images'] = $detail_images;
     }
     
+    error_log("Tile-Daten vor Speichern: " . json_encode($tile_data, JSON_UNESCAPED_UNICODE));
+    
     // Daten speichern
     if (save_tile_data($tile_data)) {
+        error_log("ERFOLG: Gespeichert nach " . TILE_DATA_FILE);
         $message = 'Super! Die Fliese des Monats wurde erfolgreich aktualisiert.';
         $message_type = 'success';
+        
+        // Daten neu laden um sicherzustellen dass alles gespeichert wurde
+        $tile_data = get_current_tile();
+        error_log("Nach dem Laden: " . json_encode($tile_data, JSON_UNESCAPED_UNICODE));
     } else {
+        error_log("FEHLER: Konnte nicht nach " . TILE_DATA_FILE . " speichern");
+        error_log("Dateiberechtigungen: " . (is_writable(dirname(TILE_DATA_FILE)) ? "Verzeichnis OK" : "Verzeichnis NICHT BESCHREIBBAR"));
         $message = 'Leider ist beim Speichern ein Fehler aufgetreten. Bitte versuchen Sie es erneut.';
         $message_type = 'danger';
     }
@@ -816,4 +839,4 @@ $month_options = get_month_options();
     }
     </script>
 </body>
-</html>2
+</html>
