@@ -1,13 +1,45 @@
+/* Fliese des Monats - Spezifische Styles */
+
+:root {
+    --clay: #C4A77D;
+    --clay-light: #E8DCC8;
+    --slate: #2D3436;
+    --slate-soft: #4A5568;
+    --cream: #FAF8F5;
+    --terracotta: #C67B5C;
+    --terracotta-dark: #A85D40;
+    --forest: #2D4739;
+    --stone: #8B9A8E;
+    --charcoal: #1A1A1A;
+}
+
 .tile-header {
-    padding: 10rem 0 4rem;
-    background: linear-gradient(135deg, var(--clay-light), var(--cream));
-    text-align: center;
+    background: linear-gradient(135deg, var(--clay-light) 0%, var(--cream) 100%);
+    padding: 8rem 0 6rem;
+    position: relative;
 }
 
-.tile-detail {
-    padding: 4rem 0;
+.tile-header .page-title {
+    color: var(--charcoal);
 }
 
+.tile-header .page-description {
+    color: var(--slate-soft);
+}
+
+.tile-header .section-label {
+    color: var(--terracotta);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.section-spacing {
+    padding: 5rem 0;
+}
+
+/* Tile Detail Grid */
 .tile-detail-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -15,127 +47,127 @@
     align-items: start;
 }
 
+/* Tile Gallery */
 .tile-gallery {
-    position: relative;
+    position: sticky;
+    top: 100px;
 }
 
 .main-image {
     position: relative;
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+    background: #f5f5f5;
+    aspect-ratio: 4/3;
 }
 
 .main-image img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
-    transition: transform 0.6s ease;
-}
-
-.main-image:hover img {
-    transform: scale(1.03);
 }
 
 .sale-badge {
     position: absolute;
-    top: 1.5rem;
-    left: 0;
+    top: 20px;
+    right: 20px;
     background: var(--terracotta);
     color: white;
-    padding: 0.6rem 1.5rem 0.6rem 1rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    padding: 8px 20px;
+    border-radius: 30px;
     font-weight: 600;
-    clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .thumbnail-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
 }
 
 .thumbnail {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    opacity: 0.6;
-    height: 80px;
-    object-fit: cover;
+    border: 2px solid transparent;
 }
 
-.thumbnail:hover,
+.thumbnail:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
 .thumbnail.active {
-    opacity: 1;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-color: var(--terracotta);
 }
 
-.tile-info {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
+/* Tile Info */
 .tile-meta {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .month-badge {
     display: inline-block;
-    background: var(--clay-light);
-    color: var(--slate);
-    padding: 0.5rem 1rem;
-    border-radius: 100px;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
+    background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-dark) 100%);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.5px;
 }
 
 .tile-title {
-    font-family: var(--font-display);
     font-size: 2.5rem;
-    color: var(--charcoal);
+    font-weight: 700;
+    margin: 1rem 0;
+    color: #1a1a1a;
     line-height: 1.2;
-    margin: 0;
 }
 
 .tile-description {
     font-size: 1.1rem;
-    color: var(--slate-soft);
+    color: #666;
     line-height: 1.8;
-    margin: 0;
+    margin: 1.5rem 0 2rem;
+}
+
+/* Features */
+.tile-features {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
 }
 
 .tile-features h3 {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    color: var(--charcoal);
+    font-size: 1.2rem;
+    font-weight: 600;
     margin-bottom: 1rem;
+    color: #1a1a1a;
 }
 
 .feature-list {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
 }
 
 .feature-list li {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    color: var(--slate);
-    font-size: 1rem;
+    gap: 12px;
+    padding: 8px 0;
+    color: #333;
+    font-size: 0.95rem;
 }
 
 .feature-list li svg {
@@ -143,227 +175,322 @@
     flex-shrink: 0;
 }
 
+/* Pricing */
 .tile-pricing {
-    background: linear-gradient(135deg, var(--clay-light), var(--cream));
-    border-radius: 16px;
-    padding: 1.5rem;
-    border: 2px solid var(--clay);
+    background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-dark) 100%);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
 }
 
 .price-block {
     display: flex;
     align-items: baseline;
     gap: 1rem;
-    margin-bottom: 0.75rem;
-    flex-wrap: wrap;
+    margin-bottom: 1rem;
 }
 
 .old-price {
-    font-size: 1.1rem;
-    color: var(--stone);
+    color: rgba(255,255,255,0.7);
+    font-size: 1.2rem;
     text-decoration: line-through;
 }
 
 .current-price {
-    font-family: var(--font-display);
-    font-size: 2.5rem;
-    color: var(--terracotta);
-    font-weight: 600;
+    color: white;
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
 }
 
 .current-price span {
-    font-size: 1rem;
-    color: var(--slate-soft);
+    font-size: 1.5rem;
     font-weight: 400;
+}
+
+.savings {
+    margin-top: 1rem;
 }
 
 .save-badge {
     display: inline-block;
-    background: linear-gradient(135deg, var(--forest), var(--stone));
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
     color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
     font-weight: 600;
 }
 
+/* Actions */
 .tile-actions {
     display: flex;
     gap: 1rem;
-    flex-wrap: wrap;
+    margin: 2rem 0;
 }
 
-.tile-actions .btn-primary {
-    flex: 1;
-    min-width: 200px;
+.btn-large {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
 }
 
-.tile-actions .btn-secondary {
+.btn-primary {
+    background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-dark) 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.875rem 1.75rem;
+    font-weight: 600;
+    text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    background: transparent;
-    color: var(--slate);
-    padding: 1rem;
-    font-weight: 500;
-    border: 2px solid var(--clay-light);
-    border-radius: 6px;
+    gap: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    text-decoration: none;
 }
 
-.tile-actions .btn-secondary:hover {
-    border-color: var(--terracotta);
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(198, 123, 92, 0.3);
+}
+
+.btn-secondary {
+    background: white;
     color: var(--terracotta);
+    border: 2px solid var(--terracotta);
+    border-radius: 8px;
+    padding: 0.875rem 1.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
+.btn-secondary:hover {
+    background: var(--terracotta);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(198, 123, 92, 0.2);
+}
+
+/* Note */
 .tile-note {
     display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
+    gap: 12px;
     padding: 1rem;
-    background: var(--cream);
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
     border-radius: 8px;
-    border-left: 3px solid var(--clay);
+    margin: 2rem 0;
 }
 
 .tile-note svg {
-    color: var(--stone);
+    color: #856404;
     flex-shrink: 0;
-    margin-top: 0.1rem;
+    margin-top: 2px;
 }
 
 .tile-note p {
     margin: 0;
+    color: #856404;
     font-size: 0.9rem;
-    color: var(--slate-soft);
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
-.why-section {
-    padding: 6rem 0;
-    background: var(--charcoal);
+/* Product Specifications Section */
+.product-specs {
+    background: #f8f9fa;
 }
 
-.why-section .section-header {
-    text-align: center;
-    margin-bottom: 4rem;
+.specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
 }
 
-.why-section .section-label {
-    color: var(--clay);
+.spec-item {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    transition: all 0.3s ease;
+    border: 1px solid #e0e0e0;
 }
 
-.why-section .section-label::after {
-    background: var(--clay);
+.spec-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    border-color: var(--terracotta);
 }
 
-.why-section .section-title {
+.spec-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-dark) 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
+}
+
+.spec-content h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 0.5rem 0;
+}
+
+.spec-content p {
+    margin: 0;
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Detailed Description Section */
+.detailed-description {
+    background: white;
+}
+
+.description-content {
+    max-width: 900px;
+    margin: 3rem auto 0;
+}
+
+.description-content p {
+    font-size: 1.1rem;
+    line-height: 1.9;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.description-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Why Section */
+.why-section {
+    background: white;
 }
 
 .benefits-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
+    margin-top: 3rem;
 }
 
 .benefit-card {
     text-align: center;
-    padding: 2rem 1.5rem;
-    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    background: #f8f9fa;
     border-radius: 12px;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .benefit-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
 }
 
 .benefit-icon {
-    width: 70px;
-    height: 70px;
-    background: linear-gradient(135deg, var(--terracotta), var(--clay));
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-dark) 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.5rem;
-}
-
-.benefit-icon svg {
     color: white;
 }
 
 .benefit-card h3 {
-    color: white;
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1a1a1a;
 }
 
 .benefit-card p {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.9rem;
+    color: #666;
     line-height: 1.6;
     margin: 0;
 }
 
+/* CTA Section */
+.cta-section {
+    background: var(--charcoal);
+    padding: 6rem 0;
+}
+
+.cta-inner {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.cta-section .section-label {
+    color: var(--clay);
+    justify-content: center;
+}
+
+.cta-section .section-title {
+    color: white;
+    font-size: 2.5rem;
+    margin: 1rem 0 1.5rem;
+}
+
+.cta-section p {
+    color: rgba(255,255,255,0.7);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.cta-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Responsive */
 @media (max-width: 992px) {
     .tile-detail-grid {
         grid-template-columns: 1fr;
-        gap: 2.5rem;
+        gap: 3rem;
     }
     
-    .benefits-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .tile-gallery {
+        position: relative;
+        top: 0;
+    }
+    
+    .tile-title {
+        font-size: 2rem;
+    }
+    
+    .specs-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 }
 
 @media (max-width: 768px) {
     .tile-header {
-        padding: 8rem 0 3rem;
+        padding: 6rem 0 4rem;
     }
     
-    .tile-header .page-title {
-        font-size: 1.75rem;
-    }
-    
-    .tile-detail {
-        padding: 2rem 0;
-    }
-    
-    .tile-detail-grid {
-        gap: 2rem;
-    }
-    
-    .main-image {
-        border-radius: 12px;
-    }
-    
-    .sale-badge {
-        font-size: 0.7rem;
-        padding: 0.5rem 1.25rem 0.5rem 0.75rem;
-    }
-    
-    .thumbnail-row {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 0.5rem;
-        margin-top: 1rem;
-    }
-    
-    .thumbnail {
-        height: 60px;
-        border-radius: 6px;
-    }
-    
-    .tile-info {
-        text-align: center;
-        gap: 1.25rem;
-    }
-    
-    .tile-meta {
-        justify-content: center;
+    .section-spacing {
+        padding: 3rem 0;
     }
     
     .tile-title {
@@ -374,134 +501,56 @@
         font-size: 1rem;
     }
     
-    .tile-features {
-        text-align: left;
-    }
-    
-    .tile-features h3 {
-        text-align: center;
-        font-size: 1.1rem;
-    }
-    
-    .feature-list {
-        align-items: center;
-    }
-    
-    .feature-list li {
-        font-size: 0.95rem;
-    }
-    
-    .tile-pricing {
-        padding: 1.25rem;
-        border-radius: 12px;
-        text-align: center;
-    }
-    
-    .price-block {
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5rem;
-    }
-    
     .current-price {
-        font-size: 2rem;
+        font-size: 2.5rem;
     }
     
     .tile-actions {
         flex-direction: column;
     }
     
-    .tile-actions .btn-primary,
-    .tile-actions .btn-secondary {
+    .tile-actions a {
         width: 100%;
         justify-content: center;
-        min-width: auto;
-    }
-    
-    .tile-note {
-        text-align: left;
-    }
-    
-    .why-section {
-        padding: 4rem 0;
-    }
-    
-    .why-section .section-header {
-        margin-bottom: 2.5rem;
-    }
-    
-    .benefits-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-    }
-    
-    .benefit-card {
-        padding: 1.5rem 1rem;
-    }
-    
-    .benefit-icon {
-        width: 56px;
-        height: 56px;
-        margin-bottom: 1rem;
-    }
-    
-    .benefit-icon svg {
-        width: 24px;
-        height: 24px;
-    }
-    
-    .benefit-card h3 {
-        font-size: 1rem;
-    }
-    
-    .benefit-card p {
-        font-size: 0.8rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .tile-header {
-        padding: 7rem 0 2rem;
-    }
-    
-    .tile-header .page-title {
-        font-size: 1.5rem;
-    }
-    
-    .tile-title {
-        font-size: 1.5rem;
     }
     
     .thumbnail-row {
         grid-template-columns: repeat(3, 1fr);
     }
     
-    .current-price {
-        font-size: 1.75rem;
-    }
-    
     .benefits-grid {
         grid-template-columns: 1fr;
-        gap: 1rem;
+        gap: 1.5rem;
     }
     
-    .benefit-card {
-        display: flex;
-        align-items: center;
-        text-align: left;
-        gap: 1rem;
-        padding: 1rem;
+    .cta-section .section-title {
+        font-size: 2rem;
     }
     
-    .benefit-icon {
-        margin: 0;
-        width: 50px;
-        height: 50px;
-        flex-shrink: 0;
+    .cta-actions {
+        flex-direction: column;
     }
     
-    .benefit-card h3 {
-        margin-bottom: 0.25rem;
+    .cta-actions a {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .description-content p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .tile-pricing {
+        padding: 1.5rem;
+    }
+    
+    .current-price {
+        font-size: 2rem;
+    }
+    
+    .thumbnail-row {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
