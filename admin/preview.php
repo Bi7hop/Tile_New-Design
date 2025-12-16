@@ -48,10 +48,7 @@ $tile_data = $preview_data;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VORSCHAU - Fliese des Monats - <?php echo htmlspecialchars($tile_data['title']); ?></title>
     <meta name="description" content="<?php echo htmlspecialchars($tile_data['description']); ?>">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/fonts.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/animations.css">
     <link rel="stylesheet" href="../assets/css/fliese-des-monats.css">
