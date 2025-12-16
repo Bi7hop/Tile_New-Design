@@ -28,6 +28,7 @@ if (!$tile) {
     <title>Fliesen Runnebaum - Handwerk mit Präzision | Fliesenleger Steinfeld</title>
     <meta name="description" content="Professionelle Fliesenarbeiten in Steinfeld und Umgebung. Über 20 Jahre Erfahrung in Badezimmer, Küche, Wohnräume und Außenbereiche.">
     <link rel="icon" href="assets/img/fliesenrunnebaum_favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/fonts.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/cookie.css">
     <link rel="stylesheet" href="assets/css/lager-banner.css">
