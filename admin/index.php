@@ -84,25 +84,121 @@ $csrf_token = generate_csrf_token();
     <link rel="icon" href="../assets/img/fliesenrunnebaum_favicon.ico" type="image/x-icon">
     
     <style>
+        /* Verbesserte Alert-Styles für Login-Seite */
+        .login-alert {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .login-alert-error {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+        }
+        
+        .login-alert-warning {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 1px solid #fcd34d;
+            color: #92400e;
+        }
+        
+        .login-alert-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .login-alert-error .login-alert-icon {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 2px solid #fca5a5;
+        }
+        
+        .login-alert-warning .login-alert-icon {
+            background: #fef3c7;
+            color: #d97706;
+            border: 2px solid #fcd34d;
+        }
+        
+        .login-alert-icon i {
+            font-size: 1.1rem;
+        }
+        
+        .login-alert-content {
+            flex: 1;
+        }
+        
+        .login-alert-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+        
+        .login-alert-message {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Security Info Box - verbessert */
         .security-info {
-            background-color: #e8f4f8;
-            border: 1px solid #126e82;
-            border-radius: 8px;
-            padding: 1rem;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 1px solid #7dd3fc;
+            border-radius: 12px;
+            padding: 1.2rem;
             margin-bottom: 1.5rem;
             font-size: 0.9rem;
         }
         
-        .timeout-warning {
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            color: #721c24;
+        .security-info-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #0369a1;
+            margin-bottom: 10px;
         }
         
+        .security-info-header i {
+            font-size: 1rem;
+        }
+        
+        .security-info ul {
+            margin: 0;
+            padding-left: 1.5rem;
+            color: #0c4a6e;
+        }
+        
+        .security-info li {
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+        
+        .security-info li:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Password Wrapper */
         .password-wrapper {
             position: relative !important;
             width: 100% !important;
@@ -117,33 +213,31 @@ $csrf_token = generate_csrf_token();
         
         .eye-button {
             position: absolute !important;
-            right: 10px !important;
+            right: 12px !important;
             top: 50% !important;
             transform: translateY(-50%) !important;
             background: transparent !important;
             border: none !important;
             cursor: pointer !important;
-            color: #666 !important;
-            z-index: 999999 !important;
+            color: #9ca3af !important;
+            z-index: 10 !important;
             padding: 8px !important;
             margin: 0 !important;
             width: auto !important;
             height: auto !important;
             font-size: 16px !important;
             line-height: 1 !important;
+            transition: color 0.2s ease !important;
+            border-radius: 4px !important;
         }
         
         .eye-button:hover {
-            color: #333 !important;
+            color: #C67B5C !important;
             background: transparent !important;
         }
         
         .eye-button i {
             pointer-events: none !important;
-        }
-        
-        .form-group .password-wrapper .password-input {
-            padding-right: 50px !important;
         }
     </style>
 </head>
@@ -155,29 +249,36 @@ $csrf_token = generate_csrf_token();
             <p>Sicherer Admin-Bereich</p>
         </div>
         
-        <?php if ($warning): ?>
-            <div class="timeout-warning">
-                <i class="fas fa-clock"></i>
-                <?php echo htmlspecialchars($warning); ?>
+        <?php if ($error): ?>
+            <div class="login-alert login-alert-error">
+                <div class="login-alert-icon">
+                    <i class="fas fa-times"></i>
+                </div>
+                <div class="login-alert-content">
+                    <div class="login-alert-title">Anmeldung fehlgeschlagen</div>
+                    <div class="login-alert-message"><?php echo htmlspecialchars($error); ?></div>
+                </div>
             </div>
         <?php endif; ?>
         
-        <?php if ($error): ?>
-            <div class="alert alert-danger">
-                <div class="alert-icon">
-                    <i class="fas fa-exclamation-triangle"></i>
+        <?php if ($warning): ?>
+            <div class="login-alert login-alert-warning">
+                <div class="login-alert-icon">
+                    <i class="fas fa-clock"></i>
                 </div>
-                <div class="alert-content">
-                    <div class="alert-title">Anmeldung fehlgeschlagen</div>
-                    <p><?php echo htmlspecialchars($error); ?></p>
+                <div class="login-alert-content">
+                    <div class="login-alert-title">Sitzung abgelaufen</div>
+                    <div class="login-alert-message"><?php echo htmlspecialchars($warning); ?></div>
                 </div>
             </div>
         <?php endif; ?>
         
         <div class="security-info">
-            <i class="fas fa-shield-alt"></i>
-            <strong>Sicherheitshinweise:</strong>
-            <ul style="margin: 0.5rem 0 0 1.5rem;">
+            <div class="security-info-header">
+                <i class="fas fa-shield-alt"></i>
+                Sicherheitshinweise
+            </div>
+            <ul>
                 <li>Ihre Sitzung läuft nach 30 Minuten Inaktivität ab</li>
                 <li>Nach 5 fehlgeschlagenen Versuchen wird der Zugang für 15 Minuten gesperrt</li>
                 <li>Alle Login-Aktivitäten werden protokolliert</li>
@@ -207,7 +308,8 @@ $csrf_token = generate_csrf_token();
                            required>
                     <button type="button" 
                             id="toggle-password" 
-                            class="eye-button">
+                            class="eye-button"
+                            aria-label="Passwort anzeigen">
                         <i class="fas fa-eye"></i>
                     </button>
                 </div>
@@ -234,9 +336,11 @@ $csrf_token = generate_csrf_token();
             if (passwordField.type === 'password') {
                 passwordField.type = 'text';
                 icon.className = 'fas fa-eye-slash';
+                this.setAttribute('aria-label', 'Passwort verbergen');
             } else {
                 passwordField.type = 'password';
                 icon.className = 'fas fa-eye';
+                this.setAttribute('aria-label', 'Passwort anzeigen');
             }
         });
     </script>
