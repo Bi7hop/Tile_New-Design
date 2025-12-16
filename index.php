@@ -53,34 +53,36 @@ if (!$tile) {
     </header>
 
     <section class="hero-section">
-        <div class="hero-content">
-            <div class="hero-label">Fliesenleger Meisterbetrieb</div>
-            <h1 class="hero-title">
-                Handwerk<br>
-                mit <span>Präzision</span>
-            </h1>
-            <p class="hero-description">
-                Seit über 20 Jahren gestalten wir Räume in Steinfeld und Umgebung. 
-                Mit Liebe zum Detail und dem Auge für das Besondere.
-            </p>
-            <div class="hero-actions">
-                <a href="kontakt.html" class="btn-primary">
-                    Projekt starten
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </a>
-                <a href="galerie.html" class="btn-secondary">
-                    Arbeiten ansehen
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </a>
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="hero-label">Fliesenleger Meisterbetrieb</div>
+                <h1 class="hero-title">
+                    Handwerk<br>
+                    mit <span>Präzision</span>
+                </h1>
+                <p class="hero-description">
+                    Seit über 20 Jahren gestalten wir Räume in Steinfeld und Umgebung. 
+                    Mit Liebe zum Detail und dem Auge für das Besondere.
+                </p>
+                <div class="hero-actions">
+                    <a href="kontakt.html" class="btn-primary">
+                        Projekt starten
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="galerie.html" class="btn-secondary">
+                        Arbeiten ansehen
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
-        </div>
-        
-        <div class="hero-image">
-            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80" alt="Modernes Badezimmer">
+            
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80" alt="Modernes Badezimmer">
+            </div>
         </div>
         
         <div class="hero-grid-overlay"></div>
