@@ -20,7 +20,6 @@ if (!$tile) {
     ];
 }
 
-// Preise formatieren (Punkt durch Komma ersetzen)
 if (isset($tile['old_price'])) {
     $tile['old_price'] = str_replace('.', ',', $tile['old_price']);
 }
@@ -164,7 +163,6 @@ if (isset($tile['saving'])) {
         </div>
     </section>
 
-    <!-- Produktdetails Section -->
     <?php if (!empty($tile['format']) || !empty($tile['material']) || !empty($tile['look']) || 
               !empty($tile['surface']) || !empty($tile['properties']) || !empty($tile['usage']) || 
               !empty($tile['floor_heating']) || !empty($tile['availability'])): ?>
@@ -293,7 +291,6 @@ if (isset($tile['saving'])) {
     </section>
     <?php endif; ?>
 
-    <!-- Detaillierte Beschreibung Section -->
     <?php if (!empty($tile['detailed_description']) && is_array($tile['detailed_description'])): ?>
     <section class="detailed-description section-spacing">
         <div class="container">
@@ -445,7 +442,7 @@ if (isset($tile['saving'])) {
                 <button class="modal-close" id="cookie-close">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Wir verwenden Cookies, um Ihnen die bestmögliche Erfahrung auf unserer Website zu bieten. Sie können selbst entscheiden, welche Cookies Sie zulassen möchten.</p>
+                <p>Wir verwenden ausschließlich technisch notwendige Cookies, um Ihre Cookie-Einstellungen zu speichern. Es werden keine Analyse- oder Marketing-Cookies verwendet.</p>
                 
                 <div class="cookie-options">
                     <div class="cookie-option">
@@ -455,30 +452,12 @@ if (isset($tile['saving'])) {
                             <p>Diese Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden.</p>
                         </label>
                     </div>
-                    
-                    <div class="cookie-option">
-                        <input type="checkbox" id="analytics-cookies">
-                        <label for="analytics-cookies">
-                            <strong>Analyse-Cookies</strong>
-                            <p>Helfen uns zu verstehen, wie Besucher mit unserer Website interagieren.</p>
-                        </label>
-                    </div>
-                    
-                    <div class="cookie-option">
-                        <input type="checkbox" id="marketing-cookies">
-                        <label for="marketing-cookies">
-                            <strong>Marketing-Cookies</strong>
-                            <p>Werden verwendet, um Besuchern relevante Werbung anzuzeigen.</p>
-                        </label>
-                    </div>
                 </div>
                 
                 <p class="cookie-info-text">Weitere Informationen finden Sie in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
             </div>
             <div class="modal-footer">
-                <button id="cookie-reject-all" class="btn-outline">Alle ablehnen</button>
-                <button id="cookie-save" class="btn-secondary">Auswahl speichern</button>
-                <button id="cookie-accept-all" class="btn-primary">Alle akzeptieren</button>
+                <button id="cookie-accept-all" class="btn-primary">Verstanden</button>
             </div>
         </div>
     </div>
