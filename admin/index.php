@@ -41,11 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             register_failed_login($ip);
         }
         // Benutzername und Passwort validieren
-        else if ($username === ADMIN_USERNAME && password_verify($password, ADMIN_PASSWORD_HASH)) {
+        else if ($user = validate_user($username, $password)) {
             // Erfolgreicher Login
             session_regenerate_id(true);
             $_SESSION['admin_logged_in'] = true;
-            $_SESSION['admin_username'] = ADMIN_USERNAME;
+            $_SESSION['admin_username'] = $user['username'];
+            $_SESSION['admin_display_name'] = $user['display_name'];
             $_SESSION['admin_login_time'] = time();
             $_SESSION['admin_last_activity'] = time();
             $_SESSION['admin_session_regenerate'] = time();
@@ -54,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // CSRF-Token erneuern
             unset($_SESSION['csrf_token']);
             
-            register_successful_login($ip);
+            register_successful_login($ip, $user['username']);
             header('Location: dashboard.php');
             exit;
         }
