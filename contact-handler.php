@@ -14,13 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // From-E-Mail intelligente Auswahl
 function get_from_email() {
     $domain = $_SERVER['SERVER_NAME'];
-    
-    // Für die echte Domain (Live)
     if (strpos($domain, 'fliesen-runnebaum.net') !== false) {
         return 'kontakt@fliesen-runnebaum.net';
     }
-    
-    // Für Test-Domains (funktioniert weiterhin)
     return 'noreply@' . $domain;
 }
 
@@ -29,7 +25,7 @@ $config = [
     'to_email' => 'bi7hop@googlemail.com', 
     'from_email' => get_from_email(),
     'reply_to_name' => 'Fliesen Runnebaum Kontaktformular',
-    'subject_prefix' => '[Fliesen Runnebaum] Neue Anfrage - ',
+    'subject_prefix' => '[Anfrage] ',
     'max_message_length' => 5000,
     'honeypot_field' => 'website', 
     'rate_limit_minutes' => 5, 
@@ -52,12 +48,11 @@ if (isset($_SESSION[$last_submission_key])) {
     }
 }
 
-// Input-Daten sanitizen
 function sanitize_input($data) {
     return htmlspecialchars(strip_tags(trim($data)), ENT_QUOTES, 'UTF-8');
 }
 
-// Honeypot-Check (Spam-Schutz)
+// Honeypot-Check
 if (!empty($_POST[$config['honeypot_field']])) {
     echo json_encode(['success' => true, 'message' => 'Nachricht gesendet']);
     exit;
@@ -73,31 +68,26 @@ foreach ($required_fields as $field) {
     }
 }
 
-// E-Mail-Validierung
 $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $errors[] = 'Bitte geben Sie eine gültige E-Mail-Adresse ein.';
 }
 
-// Domain-Blacklist
 $spam_domains = ['tempmail.org', '10minutemail.com', 'guerrillamail.com', 'mailinator.com'];
 $email_domain = strtolower(substr(strrchr($email, "@"), 1));
 if (in_array($email_domain, $spam_domains)) {
     $errors[] = 'Diese E-Mail-Domain ist nicht erlaubt.';
 }
 
-// Datenschutz-Checkbox prüfen
 if ($_POST['privacy'] !== 'on') {
     $errors[] = 'Sie müssen der Datenschutzerklärung zustimmen.';
 }
 
-// Nachrichtenlänge prüfen
 $message = sanitize_input($_POST['message']);
 if (strlen($message) > $config['max_message_length']) {
     $errors[] = 'Die Nachricht ist zu lang (max. ' . $config['max_message_length'] . ' Zeichen).';
 }
 
-// Spam-Wörter Check
 $spam_words = ['viagra', 'casino', 'lottery', 'winner', 'congratulations', 'bitcoin', 'crypto'];
 $message_lower = strtolower($message);
 foreach ($spam_words as $spam_word) {
@@ -107,7 +97,6 @@ foreach ($spam_words as $spam_word) {
     }
 }
 
-// Bei Fehlern abbrechen
 if (!empty($errors)) {
     http_response_code(400);
     echo json_encode([
@@ -117,162 +106,168 @@ if (!empty($errors)) {
     exit;
 }
 
-// Daten für E-Mail vorbereiten
 $name = sanitize_input($_POST['name']);
-$phone = !empty($_POST['phone']) ? sanitize_input($_POST['phone']) : 'Nicht angegeben';
+$phone = !empty($_POST['phone']) ? sanitize_input($_POST['phone']) : '';
 $subject_user = !empty($_POST['subject']) ? sanitize_input($_POST['subject']) : 'Allgemeine Anfrage';
 
-// E-Mail-Betreff
-$email_subject = $config['subject_prefix'] . $subject_user;
+// Betreff-Labels
+$subject_labels = [
+    'badezimmer' => 'Badezimmer',
+    'kueche' => 'Küche',
+    'wohnbereich' => 'Wohnbereich',
+    'terrasse' => 'Terrasse/Balkon',
+    'fussbodenheizung' => 'Fußbodenheizung',
+    'sonstiges' => 'Sonstiges'
+];
+$subject_display = isset($subject_labels[$subject_user]) ? $subject_labels[$subject_user] : $subject_user;
 
-// TEXT-VERSION der E-Mail
-function create_text_email($name, $email, $phone, $subject_user, $message, $client_ip) {
-    return "FLIESEN RUNNEBAUM - Neue Kundenanfrage
-" . str_repeat("=", 60) . "
+$email_subject = $config['subject_prefix'] . $name . ' - ' . $subject_display;
 
-KUNDENDATEN:
-Name:        $name
-E-Mail:      $email
-Telefon:     $phone
-Betreff:     $subject_user
+// TEXT-VERSION
+function create_text_email($name, $email, $phone, $subject_display, $message, $client_ip) {
+    $phone_line = $phone ? "\nTelefon: $phone" : "";
+    return "NEUE ANFRAGE - FLIESEN RUNNEBAUM
+=====================================
 
-NACHRICHT:
-" . str_repeat("-", 40) . "
+Von: $name
+E-Mail: $email$phone_line
+Betreff: $subject_display
+
+Nachricht:
+-------------------------------------
 $message
+-------------------------------------
 
-TECHNISCHE DETAILS:
-" . str_repeat("-", 40) . "
-Eingegangen:    " . date('d.m.Y H:i:s') . "
-IP-Adresse:     $client_ip
-Website:        https://fliesen-runnebaum.net
-
-SCHNELLE AKTIONEN:
-Anrufen:        $phone
-Antworten:      $email
-
-" . str_repeat("=", 60) . "
-Fliesen Runnebaum | Rouen Kamp 1, 49439 Steinfeld
-Tel: 0176 / 10432567 | E-Mail: info@fliesen-runnebaum.net
-" . str_repeat("=", 60);
+Eingegangen: " . date('d.m.Y, H:i') . " Uhr
+IP: $client_ip";
 }
 
-// HTML-VERSION der E-Mail
-function create_html_email($name, $email, $phone, $subject_user, $message, $client_ip) {
+// HTML-VERSION - Hell, Clean, funktioniert überall
+function create_html_email($name, $email, $phone, $subject_display, $message, $client_ip) {
+    $date = date('d.m.Y');
+    $time = date('H:i');
+    $has_phone = !empty($phone);
+    
+    $phone_row = '';
+    if ($has_phone) {
+        $phone_row = '
+                                <tr>
+                                    <td style="padding: 8px 0; color: #666666; font-size: 14px; border-bottom: 1px solid #eeeeee;">Telefon</td>
+                                    <td style="padding: 8px 0; padding-left: 15px; border-bottom: 1px solid #eeeeee;">
+                                        <a href="tel:' . htmlspecialchars($phone) . '" style="color: #333333; text-decoration: none; font-size: 14px; font-weight: 600;">' . htmlspecialchars($phone) . '</a>
+                                    </td>
+                                </tr>';
+    }
+    
+    $call_button = $has_phone ? 
+        '<a href="tel:' . htmlspecialchars($phone) . '" style="display: inline-block; padding: 12px 28px; background-color: #D4A574; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px; margin-left: 10px;">📞 Anrufen</a>' :
+        '';
+
     return '<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neue Kundenanfrage - Fliesen Runnebaum</title>
+    <title>Neue Anfrage</title>
 </head>
-<body style="margin: 0; padding: 20px; font-family: Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f4f4f4;">
-    <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-        
-        <!-- Header -->
-        <div style="background: linear-gradient(135deg, #126e82 0%, #1a8fa8 100%); color: white; padding: 30px 20px; text-align: center;">
-            <h1 style="margin: 0; font-size: 24px; font-weight: bold;">🏠 Fliesen Runnebaum</h1>
-            <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 16px;">Neue Kundenanfrage eingegangen</p>
-        </div>
-        
-        <!-- Content -->
-        <div style="padding: 30px;">
-            
-            <!-- Kundendaten -->
-            <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #eee;">
-                <h2 style="color: #126e82; font-size: 18px; font-weight: bold; margin-bottom: 15px; display: flex; align-items: center;">
-                    <span style="color: #d96941; margin-right: 10px; font-size: 20px;">●</span>
-                    Kundendaten
-                </h2>
-                <table style="width: 100%; border-collapse: collapse;">
+<body style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #333333; background-color: #f4f4f4;">
+    
+    <!-- Wrapper -->
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #f4f4f4;">
+        <tr>
+            <td style="padding: 30px 15px;">
+                
+                <!-- Container -->
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width: 550px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    
+                    <!-- Header -->
                     <tr>
-                        <td style="padding: 8px 0; font-weight: bold; color: #666; width: 120px; vertical-align: top;">Name:</td>
-                        <td style="padding: 8px 0; color: #333;"><strong>' . htmlspecialchars($name) . '</strong></td>
+                        <td style="background-color: #2C5545; padding: 20px 25px;">
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td>
+                                        <span style="color: #ffffff; font-size: 18px; font-weight: bold;">Fliesen Runnebaum</span>
+                                    </td>
+                                    <td align="right">
+                                        <span style="color: rgba(255,255,255,0.8); font-size: 13px;">' . $date . '</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
+                    
+                    <!-- Betreff-Zeile -->
                     <tr>
-                        <td style="padding: 8px 0; font-weight: bold; color: #666; vertical-align: top;">E-Mail:</td>
-                        <td style="padding: 8px 0; color: #333;"><a href="mailto:' . htmlspecialchars($email) . '" style="color: #126e82; text-decoration: none;">' . htmlspecialchars($email) . '</a></td>
+                        <td style="background-color: #D4A574; padding: 12px 25px;">
+                            <span style="color: #ffffff; font-size: 13px; font-weight: 600;">📋 ' . htmlspecialchars($subject_display) . '</span>
+                        </td>
                     </tr>
+                    
+                    <!-- Content -->
                     <tr>
-                        <td style="padding: 8px 0; font-weight: bold; color: #666; vertical-align: top;">Telefon:</td>
-                        <td style="padding: 8px 0; color: #333;"><a href="tel:' . htmlspecialchars($phone) . '" style="color: #126e82; text-decoration: none;">' . htmlspecialchars($phone) . '</a></td>
+                        <td style="padding: 25px;">
+                            
+                            <!-- Kundenname -->
+                            <h1 style="margin: 0 0 20px 0; font-size: 24px; font-weight: bold; color: #222222;">' . htmlspecialchars($name) . '</h1>
+                            
+                            <!-- Kontaktdaten Tabelle -->
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom: 25px;">
+                                <tr>
+                                    <td style="padding: 8px 0; color: #666666; font-size: 14px; border-bottom: 1px solid #eeeeee; width: 80px;">E-Mail</td>
+                                    <td style="padding: 8px 0; padding-left: 15px; border-bottom: 1px solid #eeeeee;">
+                                        <a href="mailto:' . htmlspecialchars($email) . '" style="color: #2C5545; text-decoration: none; font-size: 14px; font-weight: 600;">' . htmlspecialchars($email) . '</a>
+                                    </td>
+                                </tr>
+                                ' . $phone_row . '
+                                <tr>
+                                    <td style="padding: 8px 0; color: #666666; font-size: 14px;">Uhrzeit</td>
+                                    <td style="padding: 8px 0; padding-left: 15px; color: #333333; font-size: 14px;">' . $time . ' Uhr</td>
+                                </tr>
+                            </table>
+                            
+                            <!-- Nachricht -->
+                            <div style="background-color: #f9f9f9; border-left: 4px solid #D4A574; padding: 20px; margin-bottom: 25px; border-radius: 0 6px 6px 0;">
+                                <p style="margin: 0 0 8px 0; font-size: 12px; color: #888888; text-transform: uppercase; letter-spacing: 0.5px;">Nachricht</p>
+                                <p style="margin: 0; font-size: 15px; color: #333333; line-height: 1.7; white-space: pre-wrap;">' . nl2br(htmlspecialchars($message)) . '</p>
+                            </div>
+                            
+                            <!-- Buttons -->
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td>
+                                        <a href="mailto:' . htmlspecialchars($email) . '?subject=Re: Ihre Anfrage - ' . htmlspecialchars($subject_display) . '" style="display: inline-block; padding: 12px 28px; background-color: #2C5545; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px;">✉️ Antworten</a>
+                                        ' . $call_button . '
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                        </td>
                     </tr>
+                    
+                    <!-- Footer -->
                     <tr>
-                        <td style="padding: 8px 0; font-weight: bold; color: #666; vertical-align: top;">Betreff:</td>
-                        <td style="padding: 8px 0; color: #333;">' . htmlspecialchars($subject_user) . '</td>
+                        <td style="background-color: #f9f9f9; padding: 15px 25px; border-top: 1px solid #eeeeee;">
+                            <span style="font-size: 11px; color: #999999;">IP: ' . htmlspecialchars($client_ip) . ' · fliesen-runnebaum.net</span>
+                        </td>
                     </tr>
+                    
                 </table>
-            </div>
-            
-            <!-- Nachricht -->
-            <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #eee;">
-                <h2 style="color: #126e82; font-size: 18px; font-weight: bold; margin-bottom: 15px; display: flex; align-items: center;">
-                    <span style="color: #d96941; margin-right: 10px; font-size: 20px;">●</span>
-                    Nachricht
-                </h2>
-                <div style="background: #f8f9fa; padding: 20px; border-left: 4px solid #126e82; border-radius: 0 5px 5px 0; margin: 15px 0;">
-                    ' . nl2br(htmlspecialchars($message)) . '
-                </div>
-            </div>
-            
-            <!-- Action Buttons -->
-            <div style="margin: 25px 0; text-align: center;">
-                <a href="mailto:' . htmlspecialchars($email) . '?subject=Re: ' . htmlspecialchars($subject_user) . '" 
-                   style="display: inline-block; padding: 12px 24px; margin: 5px 10px; background: #126e82; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 14px;">
-                    📧 Direkt antworten
-                </a>
-                <a href="tel:' . htmlspecialchars($phone) . '" 
-                   style="display: inline-block; padding: 12px 24px; margin: 5px 10px; background: #d96941; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 14px;">
-                    📞 Anrufen
-                </a>
-            </div>
-            
-            <!-- Technische Details -->
-            <div style="margin-bottom: 0;">
-                <h2 style="color: #126e82; font-size: 18px; font-weight: bold; margin-bottom: 15px; display: flex; align-items: center;">
-                    <span style="color: #d96941; margin-right: 10px; font-size: 20px;">●</span>
-                    Technische Details
-                </h2>
-                <table style="width: 100%; border-collapse: collapse;">
-                    <tr>
-                        <td style="padding: 8px 0; font-weight: bold; color: #666; width: 120px;">Eingegangen:</td>
-                        <td style="padding: 8px 0; color: #333;">' . date('d.m.Y H:i:s') . '</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 8px 0; font-weight: bold; color: #666;">IP-Adresse:</td>
-                        <td style="padding: 8px 0; color: #333;">' . htmlspecialchars($client_ip) . '</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 8px 0; font-weight: bold; color: #666;">Website:</td>
-                        <td style="padding: 8px 0; color: #333;">fliesen-runnebaum.net</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        
-        <!-- Footer -->
-        <div style="background: #f8f9fa; padding: 20px; text-align: center; color: #666; font-size: 14px; border-top: 1px solid #eee;">
-            <strong style="color: #126e82;">Fliesen Runnebaum</strong><br>
-            Rouen Kamp 1, 49439 Steinfeld<br>
-            📞 0176 / 10432567 | ✉ info@fliesen-runnebaum.net
-        </div>
-    </div>
+                
+            </td>
+        </tr>
+    </table>
+    
 </body>
 </html>';
 }
 
 // MULTIPART E-MAIL VERSENDEN
-function send_multipart_email($to_email, $subject, $name, $email, $phone, $subject_user, $message, $client_ip, $from_email) {
+function send_multipart_email($to_email, $subject, $name, $email, $phone, $subject_display, $message, $client_ip, $from_email) {
+    $text_body = create_text_email($name, $email, $phone, $subject_display, $message, $client_ip);
+    $html_body = create_html_email($name, $email, $phone, $subject_display, $message, $client_ip);
     
-    // Text-Version erstellen
-    $text_body = create_text_email($name, $email, $phone, $subject_user, $message, $client_ip);
-    
-    // HTML-Version erstellen
-    $html_body = create_html_email($name, $email, $phone, $subject_user, $message, $client_ip);
-    
-    // Multipart-Boundary erstellen
     $boundary = uniqid('boundary_');
     
-    // Headers für Multipart-E-Mail
     $headers = [
         'From: ' . $from_email,
         'Reply-To: ' . $email . ' (' . $name . ')',
@@ -285,54 +280,41 @@ function send_multipart_email($to_email, $subject, $name, $email, $phone, $subje
         'X-Priority: 3'
     ];
     
-    // Multipart-Body zusammenbauen
     $multipart_body = "This is a multi-part message in MIME format.\n\n";
-    
-    // Text-Part
     $multipart_body .= "--{$boundary}\n";
     $multipart_body .= "Content-Type: text/plain; charset=UTF-8\n";
     $multipart_body .= "Content-Transfer-Encoding: 8bit\n\n";
     $multipart_body .= $text_body . "\n\n";
-    
-    // HTML-Part
     $multipart_body .= "--{$boundary}\n";
     $multipart_body .= "Content-Type: text/html; charset=UTF-8\n";
     $multipart_body .= "Content-Transfer-Encoding: 8bit\n\n";
     $multipart_body .= $html_body . "\n\n";
-    
-    // Boundary beenden
     $multipart_body .= "--{$boundary}--";
     
-    // E-Mail senden
     return mail($to_email, $subject, $multipart_body, implode("\r\n", $headers));
 }
 
-// E-MAIL VERSENDEN
 $mail_sent = send_multipart_email(
     $config['to_email'],
     $email_subject,
     $name,
     $email,
     $phone,
-    $subject_user,
+    $subject_display,
     $message,
     $client_ip,
     $config['from_email']
 );
 
 if ($mail_sent) {
-    // Rate Limiting aktualisieren
     $_SESSION[$last_submission_key] = time();
-    
-    error_log("Kontaktformular: HTML-E-Mail erfolgreich versendet von $email");
-    
+    error_log("Kontaktformular: E-Mail erfolgreich versendet von $email");
     echo json_encode([
         'success' => true,
         'message' => 'Vielen Dank für Ihre Nachricht! Wir werden uns schnellstmöglich bei Ihnen melden.'
     ]);
 } else {
     error_log("Kontaktformular: Fehler beim E-Mail-Versand von $email");
-    
     http_response_code(500);
     echo json_encode([
         'success' => false,
