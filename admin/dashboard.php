@@ -4,17 +4,245 @@ require_login();
 
 // Aktuelle Fliese des Monats laden
 $current_tile = get_current_tile();
+
+// Benutzername aus Session
+$username = $_SESSION['admin_username'] ?? 'Admin';
+
+// Zeitbasierte Begrüßung
+$hour = (int)date('H');
+if ($hour >= 5 && $hour < 12) {
+    $greeting = 'Guten Morgen';
+    $greeting_icon = 'fa-sun';
+    $greeting_color = '#F59E0B';
+} elseif ($hour >= 12 && $hour < 18) {
+    $greeting = 'Guten Tag';
+    $greeting_icon = 'fa-cloud-sun';
+    $greeting_color = '#3B82F6';
+} elseif ($hour >= 18 && $hour < 22) {
+    $greeting = 'Guten Abend';
+    $greeting_icon = 'fa-moon';
+    $greeting_color = '#8B5CF6';
+} else {
+    $greeting = 'Gute Nacht';
+    $greeting_icon = 'fa-star';
+    $greeting_color = '#6366F1';
+}
+
+// Aktuelles Datum formatiert
+$weekdays = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+$months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+$current_weekday = $weekdays[(int)date('w')];
+$current_day = (int)date('j');
+$current_month = $months[(int)date('n') - 1];
+$current_year = date('Y');
+$formatted_date = "$current_weekday, $current_day. $current_month $current_year";
+
+// Berechne Tage bis Monatsende
+$days_in_month = (int)date('t');
+$current_day_num = (int)date('j');
+$days_until_end = $days_in_month - $current_day_num;
+
+// Letzte Änderung der Fliese (aus JSON-Datei)
+$last_modified = "Unbekannt";
+$days_since_update = 0;
+if (file_exists(TILE_DATA_FILE)) {
+    $last_modified_timestamp = filemtime(TILE_DATA_FILE);
+    $last_modified = date('d.m.Y \u\m H:i', $last_modified_timestamp);
+    $days_since_update = floor((time() - $last_modified_timestamp) / 86400);
+}
 ?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fliese des Monats - Verwaltung</title>
+    <title>Dashboard - Fliesen Runnebaum Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/admin-style.css">
     <link rel="icon" href="assets/img/fliesenrunnebaum_favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../assets/css/fonts.css">
+    
+    <style>
+        /* Willkommens-Card - Terracotta Design */
+        .welcome-card {
+            background: linear-gradient(135deg, #C67B5C 0%, #A85D40 100%);
+            border-radius: var(--border-radius, 12px);
+            box-shadow: 0 10px 30px rgba(198, 123, 92, 0.3);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+        }
+        
+        .welcome-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .welcome-greeting {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 0.4rem;
+        }
+        
+        .welcome-greeting i {
+            font-size: 1.2rem;
+            color: #FDE68A;
+        }
+        
+        .welcome-title {
+            font-family: var(--font-display, 'Playfair Display', serif);
+            font-size: clamp(1.6rem, 4vw, 2rem);
+            font-weight: 700;
+            margin: 0 0 0.4rem 0;
+            color: white;
+        }
+        
+        .welcome-title span {
+            color: #FEF3C7;
+        }
+        
+        .welcome-date {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .welcome-date i {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .welcome-badge {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(4px);
+        }
+        
+        .welcome-badge i {
+            font-size: 0.5rem;
+            color: #4ADE80;
+        }
+        
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .quick-stat {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.875rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(4px);
+        }
+        
+        .quick-stat:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        .quick-stat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .quick-stat-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .quick-stat-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .quick-stat-label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Reminder Alert */
+        .reminder-alert {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 1px solid #fcd34d;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            color: #92400e;
+        }
+        
+        .reminder-alert i {
+            font-size: 1.2rem;
+            color: #d97706;
+        }
+        
+        .reminder-alert-content {
+            flex: 1;
+        }
+        
+        .reminder-alert strong {
+            color: #78350f;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .welcome-card {
+                padding: 1.5rem;
+            }
+            
+            .welcome-top {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .quick-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="admin-layout">
@@ -23,7 +251,7 @@ $current_tile = get_current_tile();
             <div class="admin-topbar-inner">
                 <div class="admin-logo">
                     <img src="../assets/img/logotest.png" alt="Fliesen Runnebaum">
-                    <span>Admin</span>
+                    <span>Adminpanel</span>
                 </div>
                 <div class="user-menu">
                     <a href="logout.php" class="btn btn-outline">
@@ -35,16 +263,71 @@ $current_tile = get_current_tile();
         </header>
         
         <main class="admin-main">
-            <!-- Willkommensbereich -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h1 class="mb-3"><i class="fas fa-home"></i> Willkommen!</h1>
-                    <p class="mb-2" style="font-size: 1.2rem;">Hier können Sie die "Fliese des Monats" auf Ihrer Website verwalten.</p>
-                    <p>Wählen Sie unten eine Option aus oder klicken Sie direkt auf "Fliese des Monats bearbeiten".</p>
+            <!-- Willkommens-Card -->
+            <div class="welcome-card">
+                <div class="welcome-top">
+                    <div>
+                        <div class="welcome-greeting">
+                            <i class="fas <?php echo $greeting_icon; ?>" style="color: <?php echo $greeting_color; ?>"></i>
+                            <?php echo $greeting; ?>
+                        </div>
+                        <h1 class="welcome-title">Willkommen zurück, <span><?php echo htmlspecialchars($username); ?></span>!</h1>
+                        <div class="welcome-date">
+                            <i class="far fa-calendar-alt"></i>
+                            <?php echo $formatted_date; ?>
+                        </div>
+                    </div>
+                    <div class="welcome-badge">
+                        <i class="fas fa-circle"></i>
+                        Eingeloggt
+                    </div>
+                </div>
+                
+                <div class="quick-stats">
+                    <div class="quick-stat">
+                        <div class="quick-stat-icon">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <div class="quick-stat-content">
+                            <div class="quick-stat-value"><?php echo htmlspecialchars($current_tile['month']); ?></div>
+                            <div class="quick-stat-label">Aktuelle Fliese</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-stat">
+                        <div class="quick-stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="quick-stat-content">
+                            <div class="quick-stat-value"><?php echo $last_modified; ?></div>
+                            <div class="quick-stat-label">Letzte Änderung</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-stat">
+                        <div class="quick-stat-icon">
+                            <i class="fas fa-hourglass-half"></i>
+                        </div>
+                        <div class="quick-stat-content">
+                            <div class="quick-stat-value"><?php echo $days_until_end; ?> Tage</div>
+                            <div class="quick-stat-label">Bis Monatsende</div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
+            <?php if ($days_until_end <= 5): ?>
+            <!-- Erinnerung wenn Monatsende naht -->
+            <div class="reminder-alert">
+                <i class="fas fa-bell"></i>
+                <div class="reminder-alert-content">
+                    <strong>Erinnerung:</strong> Nur noch <?php echo $days_until_end; ?> Tage bis zum Monatsende. 
+                    Denken Sie daran, die Fliese des Monats zu aktualisieren!
+                </div>
+            </div>
+            <?php endif; ?>
 
-            <!-- Vereinfachtes Navigationsmenü -->
+            <!-- Navigationsmenü -->
             <nav class="admin-nav mb-4">
                 <ul class="nav-tabs">
                     <li>
