@@ -1,7 +1,7 @@
 <?php
 /**
  * Admin-Konfiguration für Fliesen Runnebaum
- * Sichere Version mit externer Credentials-Datei
+ * Unterstützt mehrere Benutzer
  */
 
 // Sitzung starten
@@ -18,14 +18,16 @@ error_reporting(E_ALL);
 // ADMIN-ZUGANGSDATEN (EXTERN LADEN)
 // ==========================================
 
-// Lade Zugangsdaten aus externer Datei (nicht in Git)
 if (file_exists(__DIR__ . '/credentials.php')) {
     require_once __DIR__ . '/credentials.php';
 } else {
-    // Fallback für Produktion
-    define('ADMIN_USERNAME', 'admin');
-    define('ADMIN_PASSWORD_HASH', 'PRODUCTION_HASH_HERE'); // Muss auf Server gesetzt werden!
-    
+    // Fallback - NICHT FÜR PRODUKTION!
+    define('ADMIN_USERS', [
+        'admin' => [
+            'password_hash' => 'PRODUCTION_HASH_HERE',
+            'display_name' => 'Administrator'
+        ]
+    ]);
     error_log("WARNUNG: credentials.php fehlt! Bitte auf Server erstellen.");
 }
 
@@ -33,10 +35,7 @@ if (file_exists(__DIR__ . '/credentials.php')) {
 // SICHERHEITS-KONFIGURATION
 // ==========================================
 
-// Session-Timeout (30 Minuten)
-define('SESSION_TIMEOUT', 1800);
-
-// Login-Versuche begrenzen
+define('SESSION_TIMEOUT', 1800); // 30 Minuten
 define('MAX_LOGIN_ATTEMPTS', 5);
 define('LOGIN_LOCKOUT_TIME', 900); // 15 Minuten
 
@@ -58,6 +57,43 @@ if (!is_dir(DATA_PATH)) {
 
 if (!is_dir(UPLOAD_PATH)) {
     mkdir(UPLOAD_PATH, 0755, true);
+}
+
+// ==========================================
+// AUTHENTIFIZIERUNGS-FUNKTIONEN
+// ==========================================
+
+/**
+ * Prüft Login-Daten gegen alle registrierten Benutzer
+ */
+function validate_user($username, $password) {
+    if (!defined('ADMIN_USERS') || !is_array(ADMIN_USERS)) {
+        return false;
+    }
+    
+    // Benutzer suchen (case-sensitive)
+    if (!isset(ADMIN_USERS[$username])) {
+        return false;
+    }
+    
+    $user = ADMIN_USERS[$username];
+    
+    // Passwort prüfen
+    if (password_verify($password, $user['password_hash'])) {
+        return [
+            'username' => $username,
+            'display_name' => $user['display_name'] ?? $username
+        ];
+    }
+    
+    return false;
+}
+
+/**
+ * Gibt den Anzeigenamen des aktuellen Benutzers zurück
+ */
+function get_current_user_display_name() {
+    return $_SESSION['admin_display_name'] ?? $_SESSION['admin_username'] ?? 'Admin';
 }
 
 // ==========================================
@@ -145,7 +181,7 @@ function register_failed_login($ip) {
     security_log("Fehlgeschlagener Login-Versuch von IP: $ip (Versuch {$attempts[$ip]['count']})");
 }
 
-function register_successful_login($ip) {
+function register_successful_login($ip, $username) {
     $attempts_file = DATA_PATH . '/login_attempts.json';
     if (file_exists($attempts_file)) {
         $attempts = json_decode(file_get_contents($attempts_file), true) ?: [];
@@ -153,7 +189,7 @@ function register_successful_login($ip) {
         file_put_contents($attempts_file, json_encode($attempts, JSON_PRETTY_PRINT));
     }
     
-    security_log("Erfolgreicher Login von IP: $ip, User: " . ADMIN_USERNAME);
+    security_log("Erfolgreicher Login von IP: $ip, User: $username");
 }
 
 function require_login() {
