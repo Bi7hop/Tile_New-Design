@@ -419,7 +419,7 @@ if (isset($tile['saving'])) {
                     <h4>Kontakt</h4>
                     <ul>
                         <li><a href="tel:+4917610432567">0176 / 10432567</a></li>
-                        <li><a href="mailto:info@fliesen-runnebaum.net">info@fliesen-runnebaum.net</a></li>
+                        <li><a href="mailto:runnebaum.fliesentechnik@gmail.com">runnebaum.fliesentechnik@gmail.com</a></li>
                     </ul>
                 </div>
                 <div class="footer-hours">
