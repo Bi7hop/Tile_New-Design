@@ -22,7 +22,7 @@ function get_from_email() {
 
 // Konfiguration
 $config = [
-    'to_email' => 'bi7hop@googlemail.com', 
+    'to_email' => 'runnebaum.fliesentechnik@gmail.com', 
     'from_email' => get_from_email(),
     'reply_to_name' => 'Fliesen Runnebaum Kontaktformular',
     'subject_prefix' => '[Anfrage] ',
