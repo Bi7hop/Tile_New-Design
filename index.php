@@ -58,7 +58,7 @@ if (!$tile) {
     <section class="hero-section">
         <div class="container hero-container">
             <div class="hero-content">
-                <div class="hero-label">Fliesenleger Meisterbetrieb</div>
+                <div class="hero-label">Fliesenleger Betrieb</div>
                 <h1 class="hero-title">
                     Handwerk<br>
                     mit <span>Präzision</span>
